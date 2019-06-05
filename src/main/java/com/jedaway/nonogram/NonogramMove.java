@@ -7,9 +7,9 @@ import java.util.Objects;
 public class NonogramMove implements Move {
     private final int row;
     private final int col;
-    private final NonogramPosition.CellState state;
+    private final CellState state;
 
-    public NonogramMove(int row, int col, NonogramPosition.CellState state) {
+    public NonogramMove(int row, int col, CellState state) {
         this.row = row;
         this.col = col;
         this.state = state;

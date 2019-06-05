@@ -7,23 +7,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class NonogramPosition implements Position {
-    public enum CellState {
-        ON,
-        OFF,
-        EMPTY;
-
-        public boolean isOn() {
-            return this == ON;
-        }
-
-        public boolean isEmpty() {
-            return this == EMPTY;
-        }
-
-        public boolean isOff() {
-            return this == OFF;
-        }
-    }
 
     private final CellState[][] cells;
 
