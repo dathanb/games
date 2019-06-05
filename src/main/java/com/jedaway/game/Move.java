@@ -1,4 +1,4 @@
-package com.jedaway.nonogram;
+package com.jedaway.game;
 
 /**
  * A transition from one Position or game state to another.

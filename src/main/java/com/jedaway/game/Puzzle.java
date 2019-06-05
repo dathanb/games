@@ -1,4 +1,4 @@
-package com.jedaway.nonogram;
+package com.jedaway.game;
 
 public interface Puzzle<T extends Position> {
     /**

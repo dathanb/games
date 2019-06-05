@@ -1,5 +1,7 @@
 package com.jedaway.nonogram;
 
+import com.jedaway.game.Constraint;
+
 import java.util.Arrays;
 
 public class NonogramConstraint implements Constraint {

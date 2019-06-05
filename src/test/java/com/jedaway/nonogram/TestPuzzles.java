@@ -1,10 +1,12 @@
 package com.jedaway.nonogram;
 
+import com.jedaway.game.Logical;
+
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.jedaway.nonogram.Logical.FALSE;
-import static com.jedaway.nonogram.Logical.TRUE;
+import static com.jedaway.game.Logical.FALSE;
+import static com.jedaway.game.Logical.TRUE;
 
 public class TestPuzzles {
     public static final NonogramPuzzle PARROT = new NonogramPuzzle(

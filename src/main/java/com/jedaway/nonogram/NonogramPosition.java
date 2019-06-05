@@ -1,5 +1,8 @@
 package com.jedaway.nonogram;
 
+import com.jedaway.game.Move;
+import com.jedaway.game.Position;
+
 public class NonogramPosition implements Position {
     public enum CellState {
         ON,

@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static com.jedaway.nonogram.Logical.FALSE;
-import static com.jedaway.nonogram.Logical.UNKNOWN;
+import static com.jedaway.game.Logical.FALSE;
+import static com.jedaway.game.Logical.UNKNOWN;
 import static com.jedaway.nonogram.NonogramPosition.CellState.*;
 import static com.jedaway.nonogram.TestPuzzles.PARROT;
 import static org.junit.jupiter.api.Assertions.assertEquals;

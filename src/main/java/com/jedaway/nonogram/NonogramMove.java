@@ -1,5 +1,7 @@
 package com.jedaway.nonogram;
 
+import com.jedaway.game.Move;
+
 import java.util.Objects;
 
 public class NonogramMove implements Move {
