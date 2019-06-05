@@ -4,17 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestPuzzle implements Puzzle {
-    @Override
     public int getNumRows() {
         return 10;
     }
 
-    @Override
     public int getNumCols() {
         return 10;
     }
 
-    @Override
     public List<Constraint> getColumnConstraints() {
         return Arrays.asList(
                 new ConstraintImpl(5),
@@ -30,7 +27,6 @@ public class TestPuzzle implements Puzzle {
         );
     }
 
-    @Override
     public List<Constraint> getRowConstraints() {
         return Arrays.asList(
                 new ConstraintImpl(5),
@@ -44,5 +40,10 @@ public class TestPuzzle implements Puzzle {
                 new ConstraintImpl(7),
                 new ConstraintImpl(5)
         );
+    }
+
+    @Override
+    public Logical isValid(Position position) {
+        return null;
     }
 }

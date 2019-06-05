@@ -7,9 +7,9 @@ public class NonogramPosition implements Position {
         EMPTY;
     }
 
-    private CellState[][] cells;
+    private final CellState[][] cells;
 
-    public NongramePosition(int  numRows, int numCols) {
+    public NonogramPosition(int  numRows, int numCols) {
         this.cells = new CellState[numRows][numCols];
     }
 
@@ -18,5 +18,6 @@ public class NonogramPosition implements Position {
     }
 
     public Move[] getMoves() {
+        return null;
     }
 }
