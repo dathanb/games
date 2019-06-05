@@ -6,10 +6,8 @@ import java.util.Collections;
 
 import static com.jedaway.nongram.Logical.FALSE;
 import static com.jedaway.nongram.Logical.UNKNOWN;
-import static com.jedaway.nongram.NonogramPosition.CellState.EMPTY;
-import static com.jedaway.nongram.NonogramPosition.CellState.ON;
+import static com.jedaway.nongram.NonogramPosition.CellState.*;
 import static com.jedaway.nongram.TestPuzzles.PARROT;
-import static com.jedaway.nongram.TestPuzzles.TRIVIAL_FALSE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PuzzleTest {
@@ -39,10 +37,9 @@ public class PuzzleTest {
     }
 
     @Test
-    public void isValid_WhenRowContainsMoreTrueCellsThanConstrainsAllow_ReturnsFalse() {
+    public void isValid_WhenRowContainsMoreOnCellsThanConstrainsAllow_ReturnsFalse() {
         NonogramPosition position = new NonogramPosition(new NonogramPosition.CellState[][]{{ON}});
-        // Note that there aren't any valid solutions to this puzzle; that's fine, we're just using it to test some specific
-        // behaviors; we allow one ON cell in the column, but zero in the row, to be sure we're isolating the row checking
+        // we allow one ON cell in the column, but zero in the row, to be sure we're isolating the row checking
         // behavior
         NonogramPuzzle puzzle = new NonogramPuzzle(
                 Collections.singletonList(new NonogramConstraint(0)),
@@ -51,7 +48,17 @@ public class PuzzleTest {
     }
 
     @Test
-    public void isValid_WhenColContainsMoreTrueCellsThanConstrainsAllow_ReturnsFalse() {
+    public void isValid_WhenRowContainsMoreOffCellsThanConstrainsAllow_ReturnsFalse() {
+        NonogramPosition position = new NonogramPosition(new NonogramPosition.CellState[][]{{OFF}});
+        // we allow one OFF cell in the column, but zero in the row, to be sure we're isolating the row checking behavior
+        NonogramPuzzle puzzle = new NonogramPuzzle(
+                Collections.singletonList(new NonogramConstraint(1)),
+                Collections.singletonList(new NonogramConstraint(0)));
+        assertEquals(FALSE, puzzle.isValid(position));
+    }
+
+    @Test
+    public void isValid_WhenColContainsMoreOnCellsThanConstrainsAllow_ReturnsFalse() {
         NonogramPosition position = new NonogramPosition(new NonogramPosition.CellState[][]{{ON}});
         // Note that there aren't any valid solutions to this puzzle; that's fine, we're just using it to test some specific
         // behaviors; we allow one ON cell in the row, but zero in the column, to be sure we're isolating the column checking
@@ -59,6 +66,16 @@ public class PuzzleTest {
         NonogramPuzzle puzzle = new NonogramPuzzle(
                 Collections.singletonList(new NonogramConstraint(1)),
                 Collections.singletonList(new NonogramConstraint(0)));
+        assertEquals(FALSE, puzzle.isValid(position));
+    }
+
+    @Test
+    public void isValid_WhenColContainsMoreOffCellsThanConstrainsAllow_ReturnsFalse() {
+        NonogramPosition position = new NonogramPosition(new NonogramPosition.CellState[][]{{OFF}});
+        // we allow one OFF cell in the row, but zero in the column, to be sure we're isolating the column checking logic
+        NonogramPuzzle puzzle = new NonogramPuzzle(
+                Collections.singletonList(new NonogramConstraint(0)),
+                Collections.singletonList(new NonogramConstraint(1)));
         assertEquals(FALSE, puzzle.isValid(position));
     }
 }

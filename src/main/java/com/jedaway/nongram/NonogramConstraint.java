@@ -9,7 +9,7 @@ public class NonogramConstraint implements Constraint {
         this.nums = nums;
     }
 
-    public int numOnCellsAllowd() {
+    public int numOnCellsAllowed() {
         return Arrays.stream(nums).reduce(0, Integer::sum);
     }
 }
