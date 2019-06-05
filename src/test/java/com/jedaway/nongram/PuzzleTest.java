@@ -150,4 +150,13 @@ public class PuzzleTest {
         assertEquals(UNKNOWN, puzzle.isValid(position));
     }
 
+    @Test
+    public void isValid_WithPositionWhoseDimensionsDontMatchThePuzzle_ReturnsFalse() {
+        Puzzle puzzle = parrot();
+        NonogramPosition position = new NonogramPosition(new NonogramPosition.CellState[][]{
+                {EMPTY}
+        });
+        assertEquals(FALSE, puzzle.isValid(position));
+    }
+
 }

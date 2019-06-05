@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.jedaway.nongram.Logical.FALSE;
 import static com.jedaway.nongram.Logical.UNKNOWN;
 
-public class NonogramPuzzle implements Puzzle {
+public class NonogramPuzzle implements Puzzle<NonogramPosition> {
     private final int numRows;
     private final int numCols;
     private final List<Constraint> rowConstraints;
@@ -37,7 +38,10 @@ public class NonogramPuzzle implements Puzzle {
     }
 
     @Override
-    public Logical isValid(Position position) {
+    public Logical isValid(NonogramPosition position) {
+        if (position.getCells().length != numRows || position.getCells()[0].length != numCols) {
+            return FALSE;
+        }
         return UNKNOWN;
     }
 }

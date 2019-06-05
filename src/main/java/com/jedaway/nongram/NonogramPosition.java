@@ -4,7 +4,7 @@ public class NonogramPosition implements Position {
     public enum CellState {
         ON,
         OFF,
-        EMPTY;
+        EMPTY
     }
 
     private final CellState[][] cells;
@@ -19,5 +19,9 @@ public class NonogramPosition implements Position {
 
     public Move[] getMoves() {
         return null;
+    }
+
+    public CellState[][] getCells() {
+        return cells;
     }
 }
