@@ -42,6 +42,7 @@ public class NonogramPuzzle implements Puzzle<NonogramPosition> {
         if (position.getCells().length != numRows || position.getCells()[0].length != numCols) {
             return FALSE;
         }
+
         return UNKNOWN;
     }
 }
