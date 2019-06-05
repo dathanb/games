@@ -1,4 +1,4 @@
-package com.jedaway.nongram;
+package com.jedaway.nonogram;
 
 import java.util.Objects;
 

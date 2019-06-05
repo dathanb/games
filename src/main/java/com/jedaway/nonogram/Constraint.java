@@ -1,4 +1,4 @@
-package com.jedaway.nongram;
+package com.jedaway.nonogram;
 
 public interface Constraint {
 

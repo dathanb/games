@@ -1,4 +1,4 @@
-package com.jedaway.nongram;
+package com.jedaway.nonogram;
 
 /**
  * The state of the board at a point in time.

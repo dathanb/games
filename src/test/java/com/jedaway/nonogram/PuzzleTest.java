@@ -1,13 +1,13 @@
-package com.jedaway.nongram;
+package com.jedaway.nonogram;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static com.jedaway.nongram.Logical.FALSE;
-import static com.jedaway.nongram.Logical.UNKNOWN;
-import static com.jedaway.nongram.NonogramPosition.CellState.*;
-import static com.jedaway.nongram.TestPuzzles.PARROT;
+import static com.jedaway.nonogram.Logical.FALSE;
+import static com.jedaway.nonogram.Logical.UNKNOWN;
+import static com.jedaway.nonogram.NonogramPosition.CellState.*;
+import static com.jedaway.nonogram.TestPuzzles.PARROT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PuzzleTest {

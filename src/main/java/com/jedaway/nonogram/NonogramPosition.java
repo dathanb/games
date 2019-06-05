@@ -1,4 +1,4 @@
-package com.jedaway.nongram;
+package com.jedaway.nonogram;
 
 public class NonogramPosition implements Position {
     public enum CellState {

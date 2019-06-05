@@ -1,11 +1,11 @@
-package com.jedaway.nongram;
+package com.jedaway.nonogram;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.jedaway.nongram.Logical.FALSE;
-import static com.jedaway.nongram.Logical.UNKNOWN;
+import static com.jedaway.nonogram.Logical.FALSE;
+import static com.jedaway.nonogram.Logical.UNKNOWN;
 
 public class NonogramPuzzle implements Puzzle<NonogramPosition> {
     private final int numRows;
