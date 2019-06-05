@@ -4,7 +4,19 @@ public class NonogramPosition implements Position {
     public enum CellState {
         ON,
         OFF,
-        EMPTY
+        EMPTY;
+
+        public boolean isOn() {
+            return this == ON;
+        }
+
+        public boolean isEmpty() {
+            return this == EMPTY;
+        }
+
+        public boolean isOff() {
+            return this == OFF;
+        }
     }
 
     private final CellState[][] cells;
