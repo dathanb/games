@@ -46,49 +46,17 @@ public class NonogramPuzzle implements Puzzle<NonogramPosition> {
         }
 
         for (int i = 0; i < numRows; i++) {
-            if (tooManyOnCellsInRow(position, i) || tooManyOffCellsInRow(position, i)) {
+            if (rowConstraints.get(i).isValid(position.getRow(i)) == FALSE) {
                 return FALSE;
             }
         }
 
         for (int i = 0; i < numCols; i++) {
-            if (tooManyOnCellsInCol(position, i) || tooManyOffCellsInCol(position, i)) {
+            if (colConstraints.get(i).isValid(position.getCol(i)) == FALSE) {
                 return FALSE;
             }
         }
 
         return UNKNOWN;
-    }
-
-    private boolean tooManyOffCellsInCol(NonogramPosition position, int i) {
-        return offCellsInCol(i, position) > (numRows - colConstraints.get(i).numOnCellsAllowed());
-    }
-
-    private boolean tooManyOnCellsInCol(NonogramPosition position, int i) {
-        return onCellsInCol(i, position) > colConstraints.get(i).numOnCellsAllowed();
-    }
-
-    private boolean tooManyOffCellsInRow(NonogramPosition position, int i) {
-        return offCellsInRow(i,position) > (numCols - rowConstraints.get(i).numOnCellsAllowed());
-    }
-
-    private boolean tooManyOnCellsInRow(NonogramPosition position, int i) {
-        return onCellsInRow(i, position) > rowConstraints.get(i).numOnCellsAllowed();
-    }
-
-    private int onCellsInRow(int row, NonogramPosition position) {
-        return (int) Stream.of(position.getCells()[row]).filter(NonogramPosition.CellState::isOn).count();
-    }
-
-    private int offCellsInRow(int row, NonogramPosition position) {
-        return (int) Stream.of(position.getCells()[row]).filter(NonogramPosition.CellState::isOff).count();
-    }
-
-    private int onCellsInCol(int col, NonogramPosition position) {
-        return (int) Stream.of(position.getCells()).map(r -> r[col]).filter(NonogramPosition.CellState::isOn).count();
-    }
-
-    private int offCellsInCol(int col, NonogramPosition position) {
-        return (int) Stream.of(position.getCells()).map(r -> r[col]).filter(NonogramPosition.CellState::isOff).count();
     }
 }
