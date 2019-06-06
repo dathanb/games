@@ -3,10 +3,14 @@ package com.jedaway.nonogram;
 import com.jedaway.game.Move;
 import com.jedaway.game.Position;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class NonogramPosition implements Position {
+import static com.jedaway.nonogram.CellState.*;
+
+public class NonogramPosition implements Position<NonogramMove> {
 
     private final CellState[][] cells;
 
@@ -18,8 +22,19 @@ public class NonogramPosition implements Position {
         this.cells = cells;
     }
 
-    public Move[] getMoves() {
-        return null;
+    @Override
+    public NonogramMove[] getMoves() {
+        List<NonogramMove> moves = new ArrayList<>();
+        for (int r=0; r<cells.length; r++) {
+            CellState[] row = cells[r];
+            for (int c=0; c<row.length; c++) {
+                if (row[c] == EMPTY) {
+                    moves.add(new NonogramMove(r,c,ON));
+                    moves.add(new NonogramMove(r,c,OFF));
+                }
+            }
+        }
+        return moves.toArray(new NonogramMove[]{});
     }
 
     public CellState[][] getCells() {
