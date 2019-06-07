@@ -118,23 +118,6 @@ public class TestPuzzles {
 
     public static final NonogramPuzzle HARD = new NonogramPuzzle(
             Arrays.asList(
-                    new NonogramConstraint(1, 3),
-                    new NonogramConstraint(6, 1),
-                    new NonogramConstraint(6, 2),
-                    new NonogramConstraint(2, 2, 1),
-                    new NonogramConstraint(2, 1, 1, 1),
-                    new NonogramConstraint(2, 2, 1, 3),
-                    new NonogramConstraint(3, 3, 2),
-                    new NonogramConstraint(12),
-                    new NonogramConstraint(11, 1),
-                    new NonogramConstraint(8, 1),
-                    new NonogramConstraint(6, 4),
-                    new NonogramConstraint(6),
-                    new NonogramConstraint(8),
-                    new NonogramConstraint(15),
-                    new NonogramConstraint(4,3)
-            ),
-            Arrays.asList(
                     new NonogramConstraint(5, 1, 1),
                     new NonogramConstraint(8, 1),
                     new NonogramConstraint(1, 5, 1),
@@ -150,6 +133,23 @@ public class TestPuzzles {
                     new NonogramConstraint(5, 7),
                     new NonogramConstraint(1, 1, 5),
                     new NonogramConstraint(1, 1, 1)
+            ),
+            Arrays.asList(
+                    new NonogramConstraint(1, 3),
+                    new NonogramConstraint(6, 1),
+                    new NonogramConstraint(6, 2),
+                    new NonogramConstraint(2, 2, 1),
+                    new NonogramConstraint(2, 1, 1, 1),
+                    new NonogramConstraint(2, 2, 1, 3),
+                    new NonogramConstraint(3, 3, 2),
+                    new NonogramConstraint(12),
+                    new NonogramConstraint(11, 1),
+                    new NonogramConstraint(8, 1),
+                    new NonogramConstraint(6, 4),
+                    new NonogramConstraint(6),
+                    new NonogramConstraint(8),
+                    new NonogramConstraint(15),
+                    new NonogramConstraint(4,3)
             )
     );
 

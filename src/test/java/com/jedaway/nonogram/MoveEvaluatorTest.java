@@ -3,7 +3,7 @@ package com.jedaway.nonogram;
 import org.junit.jupiter.api.Test;
 
 import static com.jedaway.nonogram.CellState.*;
-import static com.jedaway.nonogram.MoveEvaluation.INVALID;
+import static com.jedaway.nonogram.MoveEvaluation.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoveEvaluatorTest {
@@ -11,18 +11,66 @@ public class MoveEvaluatorTest {
     public void evaluate_WithAnInvalidPosition_ReturnsInvalid() {
         NonogramPuzzle puzzle = TestPuzzles.TRIVIAL;
         NonogramPosition position = new NonogramPosition(new CellState[][]{{OFF}});
-        NonogramMove move = new NonogramMove(0,0, ON);
+        NonogramMove move = new NonogramMove(0, 0, ON);
 
-        assertEquals(INVALID, new MoveEvaluator().evaluate(move, position, puzzle));
+        assertEquals(INVALID, new MoveEvaluator(move, position, puzzle).evaluate());
     }
 
     @Test
     public void evaluate_WithAnInvalidMove_ReturnsInvalid() {
         NonogramPuzzle puzzle = TestPuzzles.TRIVIAL;
         NonogramPosition position = new NonogramPosition(new CellState[][]{{EMPTY}});
-        NonogramMove move = new NonogramMove(0,0, OFF);
+        NonogramMove move = new NonogramMove(0, 0, OFF);
 
-        assertEquals(INVALID, new MoveEvaluator().evaluate(move, position, puzzle));
+        assertEquals(INVALID, new MoveEvaluator(move, position, puzzle).evaluate());
     }
 
+    @Test
+    public void evaluate_WithAWinningMove_ReturnsWinning() {
+        NonogramPuzzle puzzle = TestPuzzles.TRIVIAL;
+        NonogramPosition position = new NonogramPosition(new CellState[][]{{EMPTY}});
+        NonogramMove move = new NonogramMove(0, 0, ON);
+
+        assertEquals(WINNING, new MoveEvaluator(move, position, puzzle).evaluate());
+    }
+
+    @Test
+    public void evaluate_WithAWinningMoveOnALargerPuzzle_ReturnsWinning() {
+        NonogramPuzzle puzzle = TestPuzzles.PARROT;
+        NonogramPosition position = new NonogramPosition(new CellState[][]{
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+        });
+        NonogramMove move = new NonogramMove(6, 0, ON);
+
+        assertEquals(WINNING, new MoveEvaluator(move, position, puzzle).evaluate());
+    }
+
+    @Test
+    public void evaluate_WithAnUnprovableMove_ReturnsMeh() {
+        NonogramPuzzle puzzle = TestPuzzles.PARROT;
+        NonogramPosition position = new NonogramPosition(new CellState[][]{
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+                {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
+        });
+        NonogramMove move = new NonogramMove(0, 0, ON);
+
+        assertEquals(MEH, new MoveEvaluator(move, position, puzzle).evaluate());
+    }
 }

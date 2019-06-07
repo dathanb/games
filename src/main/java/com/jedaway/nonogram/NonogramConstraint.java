@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.jedaway.game.Logical.*;
-import static com.jedaway.nonogram.CellState.EMPTY;
 import static com.jedaway.nonogram.CellState.OFF;
 
 public class NonogramConstraint implements Constraint {
@@ -74,6 +73,9 @@ public class NonogramConstraint implements Constraint {
                 }
             }
             previous = cells[i];
+        }
+        if (currentGroup != 0) {
+            groups.add(currentGroup);
         }
 
         int groupArray[] = new int[groups.size()];
