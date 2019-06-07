@@ -1,6 +1,5 @@
 package com.jedaway.nonogram;
 
-import com.jedaway.game.Move;
 import com.jedaway.game.Position;
 
 import java.util.ArrayList;
@@ -35,6 +34,18 @@ public class NonogramPosition implements Position<NonogramMove> {
             }
         }
         return moves.toArray(new NonogramMove[]{});
+    }
+
+    public NonogramPosition apply(NonogramMove move) {
+        CellState[][] newCells = new CellState[cells.length][cells[0].length];
+        for (int r = 0; r<cells.length; r++) {
+            CellState[] row = cells[r];
+            for (int c = 0; c<row.length; c++) {
+                newCells[r][c] = row[c];
+            }
+        }
+        newCells[move.row][move.col] = move.state;
+        return new NonogramPosition(newCells);
     }
 
     public CellState[][] getCells() {

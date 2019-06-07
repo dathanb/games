@@ -5,9 +5,9 @@ import com.jedaway.game.Move;
 import java.util.Objects;
 
 public class NonogramMove implements Move {
-    private final int row;
-    private final int col;
-    private final CellState state;
+    final int row;
+    final int col;
+    final CellState state;
 
     public NonogramMove(int row, int col, CellState state) {
         this.row = row;

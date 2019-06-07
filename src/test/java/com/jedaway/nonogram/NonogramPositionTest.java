@@ -9,8 +9,6 @@ import static com.jedaway.nonogram.CellState.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NonogramPositionTest {
-
-
     @Test
     public void getMoves_ReturnsAllMovesForAllEmptyCells() {
         NonogramPosition position = new NonogramPosition(new CellState[][]{
