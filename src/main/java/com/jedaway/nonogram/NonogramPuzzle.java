@@ -4,11 +4,13 @@ import com.jedaway.game.Logical;
 import com.jedaway.game.Puzzle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.jedaway.game.Logical.FALSE;
 import static com.jedaway.game.Logical.UNKNOWN;
+import static com.jedaway.nonogram.CellState.EMPTY;
 
 public class NonogramPuzzle implements Puzzle<NonogramPosition> {
     private final int numRows;
@@ -59,4 +61,13 @@ public class NonogramPuzzle implements Puzzle<NonogramPosition> {
 
         return UNKNOWN;
     }
+
+    public NonogramPosition getInitialPosition() {
+        CellState[][] cells = new CellState[numRows][numCols];
+        for (int r=0; r<numRows; r++) {
+            Arrays.fill(cells[r], EMPTY);
+        }
+        return new NonogramPosition(cells);
+    }
+
 }

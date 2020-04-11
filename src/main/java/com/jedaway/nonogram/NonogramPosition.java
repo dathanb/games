@@ -59,4 +59,34 @@ public class NonogramPosition implements Position<NonogramMove> {
     public CellState[] getCol(int c) {
         return Arrays.stream(cells).map(r -> r[c]).collect(Collectors.toList()).toArray(new CellState[]{});
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int r=0; r<cells.length; r++) {
+            CellState[] row = cells[r];
+            for (int c=0; c<row.length; c++) {
+                if (row[c] == ON) {
+                    sb.append((char) 0x2589);
+                } else {
+                    sb.append(' ');
+                }
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NonogramPosition that = (NonogramPosition) o;
+        return Arrays.deepEquals(cells, that.cells);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(cells);
+    }
 }

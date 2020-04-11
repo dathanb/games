@@ -1,0 +1,58 @@
+package com.jedaway.nonogram;
+
+import com.jedaway.game.Move;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.jedaway.nonogram.MoveEvaluation.WINNING;
+
+public class Solver {
+    private final NonogramPuzzle puzzle;
+    private final NonogramPosition initialPosition;
+
+    private final List<NonogramPosition> positions;
+    private final List<NonogramMove> moves;
+
+    public Solver(NonogramPuzzle puzzle, NonogramPosition initialPosition) {
+        this.puzzle = puzzle;
+        this.initialPosition = initialPosition;
+        this.moves = new ArrayList<>();
+        this.positions = new ArrayList<>();
+        this.positions.add(initialPosition);
+    }
+
+    public NonogramMove[] solve() {
+        while (isIncomplete()) {
+            boolean madeMove = false;
+            for (NonogramMove move : getCurrentPosition().getMoves()) {
+                if (new MoveEvaluator(move, getCurrentPosition(), puzzle).evaluate() == WINNING) {
+                    makeMove(move);
+                    madeMove = true;
+                    break;
+                }
+            }
+            if (!madeMove) {
+                System.out.println("Failed to find a move!");
+                System.exit(1);
+            }
+        }
+        return moves.toArray(new NonogramMove[]{});
+    }
+
+    private boolean isIncomplete() {
+        return Arrays.stream(getCurrentPosition().getCells())
+                .flatMap(Arrays::stream)
+                .anyMatch(CellState::isEmpty);
+    }
+
+    private NonogramPosition getCurrentPosition() {
+        return positions.get(positions.size() - 1);
+    }
+
+    private void makeMove(NonogramMove move) {
+        moves.add(move);
+        positions.add(getCurrentPosition().apply(move));
+    }
+}

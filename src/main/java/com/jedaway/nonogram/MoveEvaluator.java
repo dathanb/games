@@ -52,9 +52,9 @@ public class MoveEvaluator {
     }
 
     private void generateCols() {
-        CellState[] row = position.getCol(move.col);
-        generate(row, 0, possibleCols);
-        filter(possibleRows, puzzle.getColConstraints().get(move.col));
+        CellState[] col = position.getCol(move.col);
+        generate(col, 0, possibleCols);
+        filter(possibleCols, puzzle.getColConstraints().get(move.col));
     }
 
     private boolean moveIsPartOfAllValidRows() {
@@ -82,6 +82,7 @@ public class MoveEvaluator {
             CellState[] newTemplate = template.clone();
             newTemplate[index] = ON;
             generate(newTemplate, index + 1, holder);
+            newTemplate = newTemplate.clone();
             newTemplate[index] = OFF;
             generate(newTemplate, index + 1, holder);
         }
