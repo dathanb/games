@@ -1,6 +1,6 @@
 package com.jedaway.nonogram;
 
-import com.jedaway.game.Position;
+import com.jedaway.game.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static com.jedaway.nonogram.CellState.*;
 
-public class NonogramPosition implements Position<NonogramMove> {
+public class NonogramPosition implements Game<NonogramMove> {
 
     private final CellState[][] cells;
 

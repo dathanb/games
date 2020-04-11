@@ -1,12 +1,10 @@
 package com.jedaway.nonogram;
 
 import com.jedaway.game.Logical;
-import com.jedaway.game.Puzzle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.jedaway.game.Logical.FALSE;
 import static com.jedaway.game.Logical.UNKNOWN;

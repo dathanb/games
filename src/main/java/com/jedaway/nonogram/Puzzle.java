@@ -1,6 +1,8 @@
-package com.jedaway.game;
+package com.jedaway.nonogram;
 
-public interface Puzzle<T extends Position> {
+import com.jedaway.game.Logical;
+
+public interface Puzzle<T> {
     /**
      * Determine whether, within the constraints of the puzzle, the given position may be valid.
      * @param position
