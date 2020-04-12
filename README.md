@@ -69,3 +69,20 @@ and the `com.jedaway.games.nonogram.Solver` is getting less nonogram-specific mo
 incrementally generify it so that I can just pull it out as the `GameEngine`, and then write a `SortingGame` implementation
 of all the relevant components. This is so much fun! But it's almost 11:00pm, so time for bed -- I might be able to
 work on it again tomorrow.
+
+## 2020-04-12
+
+Got the Engine fully generified. I'm not crazy about `Game<GameType extends Game<GameType, MoveType>, MoveType extends Move<GameType>>`
+as a type signature, but it doesn't seem like it's going to get a lot worse, so it's ok for now.
+
+Once I get to a game that's a little fuzzier than Nonograms (e.g., the SortingGame), I'm thinking it'd be cool to
+extract the `MoveStrategy` and `MoveEvaluator` into stateful services. Then they could accept callbacks from the
+`Engine` to prune any state they're keeping around once it's no longer relevant.
+
+Also I'd like to play around with targeting Akka for all the components. I don't think it'd be that different, and it
+would actually offer a little leverage on parallelizing things like the `MoveEvaluator`. Plus it'll make adding things
+like time constraints to the `MoveStrategy` more natural. e.g., have the strategy report the best move it's found so
+far at regular intervals. Then when the `Engine` decides that it's waited long enough, it can just pick the best move
+reported so far and run with it. Or, the `MoveStrategy` can spawn multiple sub-strategies and do that sort of timeout
+logic on its own. And if we avoid trying to pass around lambdas, Akka will give us leverage on parallelizing across
+multiple computers.
