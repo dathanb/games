@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class NonogramMoveGeneratorTest {
     @Test
     public void getMoves_ReturnsAllMovesForAllEmptyCells() {
-        NonogramGame position = new NonogramGame(new CellState[][]{
+        NonogramGame position = new NonogramGame(null, new CellState[][]{
                 {ON, EMPTY},
                 {EMPTY, OFF}
         });
@@ -27,7 +27,7 @@ public class NonogramMoveGeneratorTest {
 
     @Test
     public void getMoves_DoesNotReturnMovesForNonEmptyCells() {
-        NonogramGame position = new NonogramGame(new CellState[][]{
+        NonogramGame position = new NonogramGame(null, new CellState[][]{
                 {ON, EMPTY},
                 {EMPTY, OFF}
         });

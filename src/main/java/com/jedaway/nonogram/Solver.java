@@ -3,6 +3,7 @@ package com.jedaway.nonogram;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.jedaway.nonogram.MoveEvaluation.WINNING;
 
@@ -13,6 +14,7 @@ public class Solver {
     private final List<NonogramGame> positions;
     private final List<NonogramMove> moves;
     private final NonogramMoveGenerator moveGenerator;
+    private final NonogramMoveStrategy moveStrategy;
 
     public Solver(NonogramPuzzle puzzle, NonogramGame initialPosition) {
         this.puzzle = puzzle;
@@ -21,19 +23,14 @@ public class Solver {
         this.positions = new ArrayList<>();
         this.positions.add(initialPosition);
         this.moveGenerator = new NonogramMoveGenerator();
+        moveStrategy = new NonogramMoveStrategy(moveGenerator);
     }
 
     public NonogramMove[] solve() {
         while (isIncomplete()) {
-            boolean madeMove = false;
-            for (NonogramMove move: moveGenerator.getMoves(getCurrentPosition())) {
-                if (new MoveEvaluator(move, getCurrentPosition(), puzzle).evaluate() == WINNING) {
-                    makeMove(move);
-                    madeMove = true;
-                    break;
-                }
-            }
-            if (!madeMove) {
+            Optional<NonogramMove> nextMove = moveStrategy.chooseMove(getCurrentPosition());
+            nextMove.ifPresent(this::makeMove);
+            if (!nextMove.isPresent()) {
                 System.out.println("Failed to find a move!");
                 System.exit(1);
             }

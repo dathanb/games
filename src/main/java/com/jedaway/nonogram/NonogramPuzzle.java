@@ -65,7 +65,7 @@ public class NonogramPuzzle implements Puzzle<NonogramGame> {
         for (int r=0; r<numRows; r++) {
             Arrays.fill(cells[r], EMPTY);
         }
-        return new NonogramGame(cells);
+        return new NonogramGame(this, cells);
     }
 
 }

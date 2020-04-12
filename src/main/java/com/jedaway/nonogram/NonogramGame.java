@@ -15,19 +15,23 @@ import static com.jedaway.nonogram.CellState.*;
  */
 public class NonogramGame implements Game<NonogramMove> {
     private final CellState[][] cells;
+    private final NonogramPuzzle puzzle;
     private List<NonogramMove> moves;
 
-    public NonogramGame(int numRows, int numCols) {
+    public NonogramGame(NonogramPuzzle puzzle, int numRows, int numCols) {
+        this.puzzle = puzzle;
         this.cells = new CellState[numRows][numCols];
         this.moves = new ArrayList<>();
     }
 
-    public NonogramGame(CellState[][] cells) {
+    public NonogramGame(NonogramPuzzle puzzle, CellState[][] cells) {
+        this.puzzle = puzzle;
         this.cells = cells;
         this.moves = new ArrayList<>();
     }
 
-    public NonogramGame(CellState[][] cells, List<NonogramMove> moves) {
+    public NonogramGame(NonogramPuzzle puzzle, CellState[][] cells, List<NonogramMove> moves) {
+        this.puzzle = puzzle;
         this.cells = cells;
         this.moves = moves;
     }
@@ -43,7 +47,7 @@ public class NonogramGame implements Game<NonogramMove> {
         newCells[move.row][move.col] = move.state;
         List<NonogramMove> newMoves = Lists.newArrayList(moves);
         newMoves.add(move);
-        return new NonogramGame(newCells, newMoves);
+        return new NonogramGame(puzzle, newCells, newMoves);
     }
 
     public CellState[][] getCells() {
@@ -86,5 +90,9 @@ public class NonogramGame implements Game<NonogramMove> {
     @Override
     public int hashCode() {
         return Arrays.hashCode(cells);
+    }
+
+    public NonogramPuzzle getPuzzle() {
+        return puzzle;
     }
 }
