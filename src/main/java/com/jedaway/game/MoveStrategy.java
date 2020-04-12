@@ -1,5 +1,7 @@
 package com.jedaway.game;
 
+import java.util.Optional;
+
 /**
  * A MoveStrategy is a strategy for choosing moves (it sounds tautologic, but it's true).
  *
@@ -13,5 +15,6 @@ package com.jedaway.game;
  * The MoveStrategy works closely with the {@link MoveGenerator}, since MoveStrategy's rely on the MoveGenerator to produce the moves that should be
  * evaluated.
  */
-public class MoveStrategy<MoveType extends Move> {
+public interface MoveStrategy<GameType extends Game<MoveType>, MoveType extends Move> {
+    Optional<MoveType> chooseMove(GameType game);
 }

@@ -65,10 +65,9 @@ public class NonogramGame implements Game<NonogramMove> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int r=0; r<cells.length; r++) {
-            CellState[] row = cells[r];
-            for (int c=0; c<row.length; c++) {
-                if (row[c] == ON) {
+        for (CellState[] row : cells) {
+            for (CellState cellState : row) {
+                if (cellState == ON) {
                     sb.append((char) 0x2589);
                 } else {
                     sb.append(' ');
@@ -85,6 +84,12 @@ public class NonogramGame implements Game<NonogramMove> {
         if (o == null || getClass() != o.getClass()) return false;
         NonogramGame that = (NonogramGame) o;
         return Arrays.deepEquals(cells, that.cells);
+    }
+
+    public boolean isTerminal() {
+        return Arrays.stream(cells)
+                .flatMap(Arrays::stream)
+                .noneMatch(CellState::isEmpty);
     }
 
     @Override

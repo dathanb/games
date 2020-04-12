@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.jedaway.nonogram.MoveEvaluation.WINNING;
-
 public class Solver {
     private final NonogramPuzzle puzzle;
     private final NonogramGame initialPosition;
@@ -27,7 +25,7 @@ public class Solver {
     }
 
     public NonogramMove[] solve() {
-        while (isIncomplete()) {
+        while (!getCurrentPosition().isTerminal()) {
             Optional<NonogramMove> nextMove = moveStrategy.chooseMove(getCurrentPosition());
             nextMove.ifPresent(this::makeMove);
             if (!nextMove.isPresent()) {
@@ -38,11 +36,6 @@ public class Solver {
         return moves.toArray(new NonogramMove[]{});
     }
 
-    private boolean isIncomplete() {
-        return Arrays.stream(getCurrentPosition().getCells())
-                .flatMap(Arrays::stream)
-                .anyMatch(CellState::isEmpty);
-    }
 
     private NonogramGame getCurrentPosition() {
         return positions.get(positions.size() - 1);
