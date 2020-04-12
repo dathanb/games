@@ -1,6 +1,5 @@
 package com.jedaway.nonogram;
 
-import com.google.common.collect.Lists;
 import com.jedaway.game.Engine;
 import org.junit.jupiter.api.Test;
 
@@ -8,25 +7,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolverTest {
+/**
+ * End to end test for all the Nonogram-solving components.
+ */
+public class EngineTest {
 
     private NonogramGame getFinalPosition(NonogramGame position, List<NonogramMove> moves) {
         for (NonogramMove move: moves) {
             position = position.apply(move);
         }
         return position;
-    }
-
-    @Test
-    public void solve_CanSolveASimplePuzzle() {
-        NonogramPuzzle puzzle = TestPuzzles.BUFFALO;
-        NonogramGame position = puzzle.getInitialPosition();
-        Solver solver = new Solver(position);
-        List<NonogramMove> moves = solver.solve();
-        System.out.println("Winning moves: " + Lists.newArrayList(moves).toString());
-        NonogramGame solution = getFinalPosition(position, moves);
-        System.out.println(solution.toString());
-        assertEquals(TestPuzzles.BUFFALO_SOLUTION, solution);
     }
 
     @Test
