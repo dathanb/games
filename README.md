@@ -63,3 +63,9 @@ I wonder if we should pull apart the `MoveEvaluator` into a `MoveDecider` that h
 `PositionEvaluator` that just has the logic for evaluating a single position? That makes sense to me.
 
 Cool. So before making progress on the sorting game, let's rewrite the Nonogram game according to those rules.
+
+I think that's enough for today -- I've pulled out the `NonogramMoveGenerator` and the `NonogramMoveStrategy`,
+and the `com.jedaway.games.nonogram.Solver` is getting less nonogram-specific moment by moment. I hope to be able to
+incrementally generify it so that I can just pull it out as the `GameEngine`, and then write a `SortingGame` implementation
+of all the relevant components. This is so much fun! But it's almost 11:00pm, so time for bed -- I might be able to
+work on it again tomorrow.
