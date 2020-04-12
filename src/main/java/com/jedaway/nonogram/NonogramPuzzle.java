@@ -10,7 +10,7 @@ import static com.jedaway.game.Logical.FALSE;
 import static com.jedaway.game.Logical.UNKNOWN;
 import static com.jedaway.nonogram.CellState.EMPTY;
 
-public class NonogramPuzzle implements Puzzle<NonogramPosition> {
+public class NonogramPuzzle implements Puzzle<NonogramGame> {
     private final int numRows;
     private final int numCols;
     private final List<NonogramConstraint> rowConstraints;
@@ -40,7 +40,7 @@ public class NonogramPuzzle implements Puzzle<NonogramPosition> {
     }
 
     @Override
-    public Logical isValid(NonogramPosition position) {
+    public Logical isValid(NonogramGame position) {
         if (position.getCells().length != numRows || position.getCells()[0].length != numCols) {
             return FALSE;
         }
@@ -60,12 +60,12 @@ public class NonogramPuzzle implements Puzzle<NonogramPosition> {
         return UNKNOWN;
     }
 
-    public NonogramPosition getInitialPosition() {
+    public NonogramGame getInitialPosition() {
         CellState[][] cells = new CellState[numRows][numCols];
         for (int r=0; r<numRows; r++) {
             Arrays.fill(cells[r], EMPTY);
         }
-        return new NonogramPosition(cells);
+        return new NonogramGame(cells);
     }
 
 }

@@ -42,3 +42,24 @@ to take history into account to hash effectively but some don't, we'll just leav
 to do the right thing. They're black boxes anyway right now, so we don't care how they work internally or whether they
 make a distinction between the two.
 
+OK, so those two are done. Now let's move the "apply move" function into the Game.
+
+Let's take a step back.
+
+What does the game loop look like?
+
+The engine takes the base game state -- that's the authoritative state of the game -- and wants to pick a new move.
+It does that by taking the configured `MoveGenerator` (we could put the logic for generating moves from a game state
+into the `Game` itself, but there may be games for which we can intelligently generate a subset of moves to examine; in
+that case, since there's a naive, brute-force version and a smart version, it might make sense to tease that
+functionality out into a `MoveGenerator` that can be swapped out for a different strategy) to enumerate moves from the
+current state. For each move, it passes the game state and the Move to a `MoveEvaluator`, which applies the move to the
+current Game state and then evaluates the quality of the resulting game state. Then the `MoveEvaluator` asks the
+`MoveGenerator` to generate all moves from the new position, and evaluates them recursively. It terminates according
+to some termination function (target position value achieved, or time elapsed, or target depth reached), returning the
+move with the highest expected value.
+
+I wonder if we should pull apart the `MoveEvaluator` into a `MoveDecider` that has the optimization logic and a
+`PositionEvaluator` that just has the logic for evaluating a single position? That makes sense to me.
+
+Cool. So before making progress on the sorting game, let's rewrite the Nonogram game according to those rules.

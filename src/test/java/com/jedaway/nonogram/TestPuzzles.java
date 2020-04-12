@@ -65,7 +65,7 @@ public class TestPuzzles {
             )
     );
 
-    public static final NonogramPosition BUFFALO_SOLUTION = new NonogramPosition(new CellState[][]{
+    public static final NonogramGame BUFFALO_SOLUTION = new NonogramGame(new CellState[][]{
             {OFF, OFF, OFF, ON, ON, ON, ON, ON, ON, ON},
             {ON, OFF, OFF, ON, ON, ON, ON, ON, ON, OFF},
             {ON, OFF, ON, ON, OFF, OFF, ON, ON, ON, OFF},
@@ -177,7 +177,7 @@ public class TestPuzzles {
             )
     );
 
-    public static final NonogramPosition EASY_SOLUTION = new NonogramPosition(new CellState[][]{
+    public static final NonogramGame EASY_SOLUTION = new NonogramGame(new CellState[][]{
             {ON, ON, OFF, OFF, ON},
             {ON, ON, OFF, ON, ON},
             {ON, ON, OFF, OFF, OFF},

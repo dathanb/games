@@ -1,5 +1,6 @@
 package com.jedaway.nonogram;
 
+import com.google.common.collect.Lists;
 import com.jedaway.game.Game;
 
 import java.util.ArrayList;
@@ -9,16 +10,26 @@ import java.util.stream.Collectors;
 
 import static com.jedaway.nonogram.CellState.*;
 
-public class NonogramPosition implements Game<NonogramMove> {
-
+/**
+ * The state of the Nonogram game at any point in time, including the history of moves chosen to this point.
+ */
+public class NonogramGame implements Game<NonogramMove> {
     private final CellState[][] cells;
+    private List<NonogramMove> moves;
 
-    public NonogramPosition(int  numRows, int numCols) {
+    public NonogramGame(int numRows, int numCols) {
         this.cells = new CellState[numRows][numCols];
+        this.moves = new ArrayList<>();
     }
 
-    public NonogramPosition(CellState[][] cells) {
+    public NonogramGame(CellState[][] cells) {
         this.cells = cells;
+        this.moves = new ArrayList<>();
+    }
+
+    public NonogramGame(CellState[][] cells, List<NonogramMove> moves) {
+        this.cells = cells;
+        this.moves = moves;
     }
 
     @Override
@@ -36,7 +47,7 @@ public class NonogramPosition implements Game<NonogramMove> {
         return moves.toArray(new NonogramMove[]{});
     }
 
-    public NonogramPosition apply(NonogramMove move) {
+    public NonogramGame apply(NonogramMove move) {
         CellState[][] newCells = new CellState[cells.length][cells[0].length];
         for (int r = 0; r<cells.length; r++) {
             CellState[] row = cells[r];
@@ -45,7 +56,9 @@ public class NonogramPosition implements Game<NonogramMove> {
             }
         }
         newCells[move.row][move.col] = move.state;
-        return new NonogramPosition(newCells);
+        List<NonogramMove> newMoves = Lists.newArrayList(moves);
+        newMoves.add(move);
+        return new NonogramGame(newCells);
     }
 
     public CellState[][] getCells() {
@@ -81,7 +94,7 @@ public class NonogramPosition implements Game<NonogramMove> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NonogramPosition that = (NonogramPosition) o;
+        NonogramGame that = (NonogramGame) o;
         return Arrays.deepEquals(cells, that.cells);
     }
 

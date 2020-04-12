@@ -1,7 +1,5 @@
 package com.jedaway.nonogram;
 
-import com.jedaway.game.Move;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,12 +8,12 @@ import static com.jedaway.nonogram.MoveEvaluation.WINNING;
 
 public class Solver {
     private final NonogramPuzzle puzzle;
-    private final NonogramPosition initialPosition;
+    private final NonogramGame initialPosition;
 
-    private final List<NonogramPosition> positions;
+    private final List<NonogramGame> positions;
     private final List<NonogramMove> moves;
 
-    public Solver(NonogramPuzzle puzzle, NonogramPosition initialPosition) {
+    public Solver(NonogramPuzzle puzzle, NonogramGame initialPosition) {
         this.puzzle = puzzle;
         this.initialPosition = initialPosition;
         this.moves = new ArrayList<>();
@@ -47,7 +45,7 @@ public class Solver {
                 .anyMatch(CellState::isEmpty);
     }
 
-    private NonogramPosition getCurrentPosition() {
+    private NonogramGame getCurrentPosition() {
         return positions.get(positions.size() - 1);
     }
 

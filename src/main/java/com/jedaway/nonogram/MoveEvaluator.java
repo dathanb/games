@@ -12,12 +12,12 @@ import static com.jedaway.nonogram.MoveEvaluation.*;
  */
 public class MoveEvaluator {
     private final NonogramMove move;
-    private final NonogramPosition position;
+    private final NonogramGame position;
     private final NonogramPuzzle puzzle;
     private final List<CellState[]> possibleRows = new ArrayList<>();
     private final List<CellState[]> possibleCols = new ArrayList<>();
 
-    public MoveEvaluator(NonogramMove move, NonogramPosition position, NonogramPuzzle puzzle) {
+    public MoveEvaluator(NonogramMove move, NonogramGame position, NonogramPuzzle puzzle) {
         this.move = move;
         this.position = position;
         this.puzzle = puzzle;
@@ -28,7 +28,7 @@ public class MoveEvaluator {
             return INVALID;
         }
 
-        NonogramPosition movedPosition = position.apply(move);
+        NonogramGame movedPosition = position.apply(move);
         if (puzzle.isValid(movedPosition) == FALSE) {
             return INVALID;
         }

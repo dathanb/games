@@ -8,10 +8,10 @@ import java.util.List;
 import static com.jedaway.nonogram.CellState.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NonogramPositionTest {
+public class NonogramGameTest {
     @Test
     public void getMoves_ReturnsAllMovesForAllEmptyCells() {
-        NonogramPosition position = new NonogramPosition(new CellState[][]{
+        NonogramGame position = new NonogramGame(new CellState[][]{
                 {ON, EMPTY},
                 {EMPTY, OFF}
         });
@@ -25,7 +25,7 @@ public class NonogramPositionTest {
 
     @Test
     public void getMoves_DoesNotReturnMovesForNonEmptyCells() {
-        NonogramPosition position = new NonogramPosition(new CellState[][]{
+        NonogramGame position = new NonogramGame(new CellState[][]{
                 {ON, EMPTY},
                 {EMPTY, OFF}
         });

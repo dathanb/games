@@ -3,6 +3,7 @@ package com.jedaway.nonogram;
 import org.junit.jupiter.api.Test;
 
 import static com.jedaway.game.Logical.FALSE;
+import static com.jedaway.game.Logical.TRUE;
 import static com.jedaway.game.Logical.UNKNOWN;
 import static com.jedaway.nonogram.CellState.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,6 @@ public class NonogramConstraintTest {
     public void isValid_WithAllGroupsMatched_ReturnsTrue() {
         NonogramConstraint constraint = new NonogramConstraint(1,1);
         CellState[] row = new CellState[]{ON, OFF, ON};
-        assertEquals(FALSE, constraint.isValid(row));
+        assertEquals(TRUE, constraint.isValid(row));
     }
 }

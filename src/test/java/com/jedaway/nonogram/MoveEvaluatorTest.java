@@ -10,7 +10,7 @@ public class MoveEvaluatorTest {
     @Test
     public void evaluate_WithAnInvalidPosition_ReturnsInvalid() {
         NonogramPuzzle puzzle = TestPuzzles.TRIVIAL;
-        NonogramPosition position = new NonogramPosition(new CellState[][]{{OFF}});
+        NonogramGame position = new NonogramGame(new CellState[][]{{OFF}});
         NonogramMove move = new NonogramMove(0, 0, ON);
 
         assertEquals(INVALID, new MoveEvaluator(move, position, puzzle).evaluate());
@@ -19,7 +19,7 @@ public class MoveEvaluatorTest {
     @Test
     public void evaluate_WithAnInvalidMove_ReturnsInvalid() {
         NonogramPuzzle puzzle = TestPuzzles.TRIVIAL;
-        NonogramPosition position = new NonogramPosition(new CellState[][]{{EMPTY}});
+        NonogramGame position = new NonogramGame(new CellState[][]{{EMPTY}});
         NonogramMove move = new NonogramMove(0, 0, OFF);
 
         assertEquals(INVALID, new MoveEvaluator(move, position, puzzle).evaluate());
@@ -28,7 +28,7 @@ public class MoveEvaluatorTest {
     @Test
     public void evaluate_WithAWinningMove_ReturnsWinning() {
         NonogramPuzzle puzzle = TestPuzzles.TRIVIAL;
-        NonogramPosition position = new NonogramPosition(new CellState[][]{{EMPTY}});
+        NonogramGame position = new NonogramGame(new CellState[][]{{EMPTY}});
         NonogramMove move = new NonogramMove(0, 0, ON);
 
         assertEquals(WINNING, new MoveEvaluator(move, position, puzzle).evaluate());
@@ -37,7 +37,7 @@ public class MoveEvaluatorTest {
     @Test
     public void evaluate_WithAWinningMoveOnALargerPuzzle_ReturnsWinning() {
         NonogramPuzzle puzzle = TestPuzzles.PARROT;
-        NonogramPosition position = new NonogramPosition(new CellState[][]{
+        NonogramGame position = new NonogramGame(new CellState[][]{
                 {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
                 {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
                 {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
@@ -57,7 +57,7 @@ public class MoveEvaluatorTest {
     @Test
     public void evaluate_WithAnUnprovableMove_ReturnsMeh() {
         NonogramPuzzle puzzle = TestPuzzles.PARROT;
-        NonogramPosition position = new NonogramPosition(new CellState[][]{
+        NonogramGame position = new NonogramGame(new CellState[][]{
                 {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
                 {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
                 {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,},
