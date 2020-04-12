@@ -7,7 +7,7 @@ import static com.jedaway.nonogram.CellState.EMPTY;
 import static com.jedaway.nonogram.CellState.OFF;
 import static com.jedaway.nonogram.CellState.ON;
 
-public class MoveGenerator {
+public class NonogramMoveGenerator {
     public NonogramMove[] getMoves(NonogramGame game) {
         List<NonogramMove> moves = new ArrayList<>();
         CellState[][] cells = game.getCells();

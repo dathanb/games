@@ -3,7 +3,6 @@ package com.jedaway.nonogram;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static com.jedaway.nonogram.MoveEvaluation.WINNING;
 
@@ -13,7 +12,7 @@ public class Solver {
 
     private final List<NonogramGame> positions;
     private final List<NonogramMove> moves;
-    private final MoveGenerator moveGenerator;
+    private final NonogramMoveGenerator moveGenerator;
 
     public Solver(NonogramPuzzle puzzle, NonogramGame initialPosition) {
         this.puzzle = puzzle;
@@ -21,7 +20,7 @@ public class Solver {
         this.moves = new ArrayList<>();
         this.positions = new ArrayList<>();
         this.positions.add(initialPosition);
-        this.moveGenerator = new MoveGenerator();
+        this.moveGenerator = new NonogramMoveGenerator();
     }
 
     public NonogramMove[] solve() {

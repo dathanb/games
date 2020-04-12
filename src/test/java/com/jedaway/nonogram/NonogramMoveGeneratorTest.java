@@ -9,7 +9,7 @@ import static com.jedaway.nonogram.CellState.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MoveGeneratorTest {
+public class NonogramMoveGeneratorTest {
     @Test
     public void getMoves_ReturnsAllMovesForAllEmptyCells() {
         NonogramGame position = new NonogramGame(new CellState[][]{
@@ -17,7 +17,7 @@ public class MoveGeneratorTest {
                 {EMPTY, OFF}
         });
 
-        MoveGenerator moveGenerator = new MoveGenerator();
+        NonogramMoveGenerator moveGenerator = new NonogramMoveGenerator();
         List<NonogramMove> moves = Arrays.asList(moveGenerator.getMoves(position));
         assertTrue(moves.contains(new NonogramMove(1, 0, ON)));
         assertTrue(moves.contains(new NonogramMove(1, 0, OFF)));
@@ -32,7 +32,7 @@ public class MoveGeneratorTest {
                 {EMPTY, OFF}
         });
 
-        MoveGenerator moveGenerator = new MoveGenerator();
+        NonogramMoveGenerator moveGenerator = new NonogramMoveGenerator();
         List<NonogramMove> moves = Arrays.asList(moveGenerator.getMoves(position));
         assertFalse(moves.contains(new NonogramMove(0, 0, ON)));
         assertFalse(moves.contains(new NonogramMove(0, 0, OFF)));
