@@ -10,8 +10,4 @@ import com.jedaway.game.Move;
  * game states for the purpose of pruning search trees.
  */
 public class SortingGame implements Game<SortingGameMove> {
-    @Override
-    public SortingGameMove[] getMoves() {
-        return new SortingGameMove[0];
-    }
 }

@@ -32,21 +32,6 @@ public class NonogramGame implements Game<NonogramMove> {
         this.moves = moves;
     }
 
-    @Override
-    public NonogramMove[] getMoves() {
-        List<NonogramMove> moves = new ArrayList<>();
-        for (int r=0; r<cells.length; r++) {
-            CellState[] row = cells[r];
-            for (int c=0; c<row.length; c++) {
-                if (row[c] == EMPTY) {
-                    moves.add(new NonogramMove(r,c,ON));
-                    moves.add(new NonogramMove(r,c,OFF));
-                }
-            }
-        }
-        return moves.toArray(new NonogramMove[]{});
-    }
-
     public NonogramGame apply(NonogramMove move) {
         CellState[][] newCells = new CellState[cells.length][cells[0].length];
         for (int r = 0; r<cells.length; r++) {
