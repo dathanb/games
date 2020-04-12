@@ -58,7 +58,7 @@ public class NonogramGame implements Game<NonogramMove> {
         newCells[move.row][move.col] = move.state;
         List<NonogramMove> newMoves = Lists.newArrayList(moves);
         newMoves.add(move);
-        return new NonogramGame(newCells);
+        return new NonogramGame(newCells, newMoves);
     }
 
     public CellState[][] getCells() {
