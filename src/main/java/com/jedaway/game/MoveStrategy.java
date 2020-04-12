@@ -15,6 +15,6 @@ import java.util.Optional;
  * The MoveStrategy works closely with the {@link MoveGenerator}, since MoveStrategy's rely on the MoveGenerator to produce the moves that should be
  * evaluated.
  */
-public interface MoveStrategy<GameType extends Game<MoveType>, MoveType extends Move> {
+public interface MoveStrategy<GameType extends Game<GameType, MoveType>, MoveType extends Move> {
     Optional<MoveType> chooseMove(GameType game);
 }

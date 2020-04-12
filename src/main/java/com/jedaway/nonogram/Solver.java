@@ -1,12 +1,12 @@
 package com.jedaway.nonogram;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class Solver {
-    private final NonogramPuzzle puzzle;
     private final NonogramGame initialPosition;
 
     private final List<NonogramGame> positions;
@@ -14,8 +14,7 @@ public class Solver {
     private final NonogramMoveGenerator moveGenerator;
     private final NonogramMoveStrategy moveStrategy;
 
-    public Solver(NonogramPuzzle puzzle, NonogramGame initialPosition) {
-        this.puzzle = puzzle;
+    public Solver(NonogramGame initialPosition) {
         this.initialPosition = initialPosition;
         this.moves = new ArrayList<>();
         this.positions = new ArrayList<>();
@@ -24,16 +23,20 @@ public class Solver {
         moveStrategy = new NonogramMoveStrategy(moveGenerator);
     }
 
-    public NonogramMove[] solve() {
+    public List<NonogramMove> solve() {
         while (!getCurrentPosition().isTerminal()) {
-            Optional<NonogramMove> nextMove = moveStrategy.chooseMove(getCurrentPosition());
-            nextMove.ifPresent(this::makeMove);
-            if (!nextMove.isPresent()) {
-                System.out.println("Failed to find a move!");
-                System.exit(1);
-            }
+            pickAndMakeMove();
         }
-        return moves.toArray(new NonogramMove[]{});
+        return ImmutableList.copyOf(moves);
+    }
+
+    private void pickAndMakeMove() {
+        Optional<NonogramMove> nextMove = moveStrategy.chooseMove(getCurrentPosition());
+        nextMove.ifPresent(this::makeMove);
+        if (!nextMove.isPresent()) {
+            System.out.println("Failed to find a move!");
+            System.exit(1);
+        }
     }
 
 

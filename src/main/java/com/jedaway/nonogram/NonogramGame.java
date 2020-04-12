@@ -13,7 +13,7 @@ import static com.jedaway.nonogram.CellState.*;
 /**
  * The state of the Nonogram game at any point in time, including the history of moves chosen to this point.
  */
-public class NonogramGame implements Game<NonogramMove> {
+public class NonogramGame implements Game<NonogramGame, NonogramMove> {
     private final CellState[][] cells;
     private final NonogramPuzzle puzzle;
     private List<NonogramMove> moves;
@@ -40,9 +40,7 @@ public class NonogramGame implements Game<NonogramMove> {
         CellState[][] newCells = new CellState[cells.length][cells[0].length];
         for (int r = 0; r<cells.length; r++) {
             CellState[] row = cells[r];
-            for (int c = 0; c<row.length; c++) {
-                newCells[r][c] = row[c];
-            }
+            System.arraycopy(row, 0, newCells[r], 0, row.length);
         }
         newCells[move.row][move.col] = move.state;
         List<NonogramMove> newMoves = Lists.newArrayList(moves);

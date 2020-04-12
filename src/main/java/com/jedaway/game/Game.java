@@ -5,13 +5,13 @@ package com.jedaway.game;
  *
  * The Game should be immutable, as we'll be creating lots of them.
  */
-public interface Game<MoveType extends Move> {
+public interface Game<GameType extends Game<GameType, MoveType>, MoveType extends Move> {
     /**
      * Compose the given move with the current game state, returning a new game state.
      * @param move The move to apply
      * @return The new game state resulting from applying the move to the current game state.
      */
-    Game<MoveType> apply(MoveType move);
+    GameType apply(MoveType move);
 
     /**
      * Whether the game state represents a terminal position.

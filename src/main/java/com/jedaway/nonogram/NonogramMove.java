@@ -29,4 +29,13 @@ public class NonogramMove implements Move {
     public int hashCode() {
         return Objects.hash(row, col, state);
     }
+
+    @Override
+    public String toString() {
+        return "NonogramMove{" +
+                "row=" + row +
+                ", col=" + col +
+                ", state=" + state +
+                '}';
+    }
 }
