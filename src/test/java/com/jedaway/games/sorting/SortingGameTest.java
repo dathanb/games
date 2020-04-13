@@ -1,0 +1,60 @@
+package com.jedaway.games.sorting;
+
+import com.jedaway.sorting.Bucket;
+import com.jedaway.sorting.Color;
+import com.jedaway.sorting.SortingGame;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DisplayName("SortingGame")
+public class SortingGameTest {
+    @Nested
+    @DisplayName(".randomGame")
+    public class RandomGame {
+        SortingGame sortingGame;
+
+        @BeforeEach
+        public void beforeEach() {
+            sortingGame = SortingGame.randomGame(4, 4);
+        }
+
+        @Test
+        @DisplayName("creates the right number of buckets")
+        public void createsTheRightNumberOfBuckets() {
+            assertEquals(5, sortingGame.getBuckets().size());
+        }
+
+        @Test
+        @DisplayName("creates each bucket with the right size and capacity")
+        public void createsBucketsTheRightSize() {
+
+            for (int i = 0; i < sortingGame.getBuckets().size() - 1; i++) {
+                Bucket bucket = sortingGame.getBuckets().get(i);
+                assertEquals(4, bucket.getCapacity());
+                assertEquals(4, bucket.size());
+            }
+            assertEquals(0, sortingGame.getBuckets().get(4).size());
+        }
+
+        @Test
+        @DisplayName("uses each color the right number of times")
+        public void usesEachColorTheRightNumberOfTimes() {
+            HashMap<Color, Integer> colorCounts = new HashMap<>();
+            for (int i = 0; i < sortingGame.getBuckets().size() - 1; i++) {
+                Bucket bucket = sortingGame.getBuckets().get(i);
+                colorCounts.compute(bucket.pop(), (color, colorCount) -> (colorCount == null ? 0 : colorCount) + 1);
+                colorCounts.compute(bucket.pop(), (color, colorCount) -> (colorCount == null ? 0 : colorCount) + 1);
+                colorCounts.compute(bucket.pop(), (color, colorCount) -> (colorCount == null ? 0 : colorCount) + 1);
+                colorCounts.compute(bucket.pop(), (color, colorCount) -> (colorCount == null ? 0 : colorCount) + 1);
+            }
+            assertTrue(colorCounts.values().stream().allMatch(i -> i == 4));
+        }
+    }
+}
