@@ -1,5 +1,10 @@
 package com.jedaway.sorting;
 
+import com.google.common.collect.ImmutableList;
+import com.jedaway.game.PositionEvaluator;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -8,11 +13,20 @@ import java.util.Stack;
  */
 public class Bucket {
     private final int capacity;
-    private final Stack<Color> stack;
+    private final List<Color> stack;
 
     public Bucket(int capacity) {
         this.capacity = capacity;
         stack = new Stack<>();
+    }
+
+    /**
+     * Copy constructor
+     * @param other
+     */
+    public Bucket(Bucket other) {
+        capacity = other.capacity;
+        stack = new ArrayList<>(other.stack);
     }
 
     public int getCapacity() {
@@ -23,11 +37,11 @@ public class Bucket {
         if (stack.size() >= capacity) {
             throw new RuntimeException("Already at capacity");
         }
-        stack.push(color);
+        stack.add(color);
     }
 
     public Color pop() {
-        return stack.pop();
+        return stack.remove(stack.size()-1);
     }
 
     /**
@@ -35,6 +49,15 @@ public class Bucket {
      */
     public int size() {
         return stack.size();
+    }
+
+    /**
+     * Get the values currently in the bucket. List index zero is the bottom of the bucket.
+     *
+     * This value method is intended for use by {@link PositionEvaluator}s.
+     */
+    List<Color> getValues() {
+        return stack;
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * An instance of the SortingGame up to a particular point in time, including move history.
@@ -25,19 +26,19 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
 
     public static SortingGame randomGame(int numColors, int bucketSize) {
         List<Color> colorsToPlace = new ArrayList<>(numColors * bucketSize);
-        for (int i=0; i<numColors; i++) {
-            for (int j=0; j<bucketSize; j++) {
+        for (int i = 0; i < numColors; i++) {
+            for (int j = 0; j < bucketSize; j++) {
                 colorsToPlace.add(Color.values()[i]);
             }
         }
         Collections.shuffle(colorsToPlace);
 
         List<Bucket> buckets = new ArrayList<>(numColors + 1);
-        for (int i=0; i<numColors; i++) {
+        for (int i = 0; i < numColors; i++) {
             buckets.add(new Bucket(bucketSize));
             for (int j = 0; j < bucketSize; j++) {
-                buckets.get(i).push(colorsToPlace.get(colorsToPlace.size()-1));
-                colorsToPlace.remove(colorsToPlace.size()-1);
+                buckets.get(i).push(colorsToPlace.get(colorsToPlace.size() - 1));
+                colorsToPlace.remove(colorsToPlace.size() - 1);
             }
         }
         buckets.add(new Bucket(bucketSize));
@@ -47,12 +48,24 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
 
     @Override
     public SortingGame apply(SortingGameMove move) {
-        return null;
+        // TODO: copy less data here
+
+        // get copy of buckets
+        List<Bucket> newBuckets = buckets.stream().map(Bucket::new).collect(Collectors.toList());
+
+        // apply the move
+        Color color = newBuckets.get(move.getSourceBucket()).pop();
+        newBuckets.get(move.getDestinationBucket()).push(color);
+
+        return new SortingGame(newBuckets);
     }
 
     @Override
     public boolean isTerminal() {
-        return false;
+        return buckets.stream()
+                .allMatch(colors -> colors.getValues()
+                        .stream()
+                        .allMatch(color -> color == colors.getValues().get(0)));
     }
 
     public List<Bucket> getBuckets() {
@@ -60,7 +73,6 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
         return buckets;
 
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -77,8 +89,17 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
 
     @Override
     public String toString() {
-        return "SortingGame{" +
-                "buckets=" + buckets +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        for (int row=buckets.get(0).getCapacity()-1; row>=0; row--) {
+            for (Bucket bucket : buckets) {
+                String value = "";
+                if (bucket.size() > row) {
+                    value = bucket.getValues().get(row).name();
+                }
+                sb.append(String.format("%8s", value));
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

@@ -46,5 +46,7 @@ public class Engine<GameType extends Game<GameType, MoveType>, MoveType extends 
     private void makeMove(MoveType move) {
         moves.add(move);
         currentGameState = currentGameState.apply(move);
+        System.out.println(String.format("Applying move: %s", move.toString()));
+        System.out.println(String.format("Resulting state\n%s", currentGameState.toString()));
     }
 }

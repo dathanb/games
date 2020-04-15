@@ -86,3 +86,24 @@ far at regular intervals. Then when the `Engine` decides that it's waited long e
 reported so far and run with it. Or, the `MoveStrategy` can spawn multiple sub-strategies and do that sort of timeout
 logic on its own. And if we avoid trying to pass around lambdas, Akka will give us leverage on parallelizing across
 multiple computers.
+
+## 2020-04-14
+
+I've implemented a depth-1 max search algorithm. Now I need to make it recursive. I'm not sure the right way to do it.
+We want to pick the single move that ends in the maximum value at our max search depth.
+
+So from a given game state, we have a list of possible moves. Each move M results in a new game state Gm that has a
+score Sm. That's easy enough -- we put those three into a single tuple and order them by score.
+
+Once we've finished that level of depth, we store it and we move on to the next level.
+
+How do we represent that? I can think of two approaches offhand;
+1. We store each distinct path (where a path that terminates at M1 is different from a path that terminates at M1.1)
+   as a separate entry.
+2. We store move paths as a tree, and as we encounter a new max route, we update the tree.
+
+The tree seems like the more natural representation -- let's pursue that route.
+
+We'll have to get a little creative to support hashing irrespective of move history, but that can wait until later, I
+think.
+
