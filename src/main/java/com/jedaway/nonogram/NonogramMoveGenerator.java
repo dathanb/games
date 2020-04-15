@@ -11,7 +11,7 @@ import static com.jedaway.nonogram.CellState.ON;
 
 public class NonogramMoveGenerator implements MoveGenerator<NonogramGame, NonogramMove> {
     @Override
-    public NonogramMove[] getMoves(NonogramGame game) {
+    public List<NonogramMove> getMoves(NonogramGame game) {
         List<NonogramMove> moves = new ArrayList<>();
         CellState[][] cells = game.getCells();
         for (int r=0; r<cells.length; r++) {
@@ -23,6 +23,6 @@ public class NonogramMoveGenerator implements MoveGenerator<NonogramGame, Nonogr
                 }
             }
         }
-        return moves.toArray(new NonogramMove[]{});
+        return moves;
     }
 }

@@ -18,7 +18,7 @@ public class NonogramMoveGeneratorTest {
         });
 
         NonogramMoveGenerator moveGenerator = new NonogramMoveGenerator();
-        List<NonogramMove> moves = Arrays.asList(moveGenerator.getMoves(position));
+        List<NonogramMove> moves = moveGenerator.getMoves(position);
         assertTrue(moves.contains(new NonogramMove(1, 0, ON)));
         assertTrue(moves.contains(new NonogramMove(1, 0, OFF)));
         assertTrue(moves.contains(new NonogramMove(0, 1, ON)));
@@ -33,7 +33,7 @@ public class NonogramMoveGeneratorTest {
         });
 
         NonogramMoveGenerator moveGenerator = new NonogramMoveGenerator();
-        List<NonogramMove> moves = Arrays.asList(moveGenerator.getMoves(position));
+        List<NonogramMove> moves = moveGenerator.getMoves(position);
         assertFalse(moves.contains(new NonogramMove(0, 0, ON)));
         assertFalse(moves.contains(new NonogramMove(0, 0, OFF)));
         assertFalse(moves.contains(new NonogramMove(1, 1, ON)));

@@ -14,7 +14,7 @@ import java.util.Set;
 public class SortingGameMoveGenerator implements MoveGenerator<SortingGame, SortingGameMove> {
 
     @Override
-    public SortingGameMove[] getMoves(SortingGame game) {
+    public List<SortingGameMove> getMoves(SortingGame game) {
         List<SortingGameMove> moves = new ArrayList<>();
         List<Bucket> buckets = game.getBuckets();
         Set<Integer> sourceBuckets = new HashSet<>();
@@ -38,6 +38,6 @@ public class SortingGameMoveGenerator implements MoveGenerator<SortingGame, Sort
                 }
             }
         }
-        return moves.toArray(new SortingGameMove[]{});
+        return moves;
     }
 }
