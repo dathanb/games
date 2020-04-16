@@ -23,7 +23,7 @@ public class Engine<GameType extends Game<GameType, MoveType>, MoveType extends 
     }
 
     public List<MoveType> run() {
-        while (!getCurrentGameState().isTerminal()) {
+        while (!currentGameState.isTerminal()) {
             pickAndMakeMove();
         }
         return ImmutableList.copyOf(moves);
