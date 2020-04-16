@@ -12,11 +12,11 @@ import java.util.List;
 public class SmokeTest {
     @Test
     public void runSortingGame() {
-        SortingGame sortingGame = SortingGame.randomGame(4, 4);
+        SortingGame sortingGame = SortingGame.randomGame(2, 2);
 
         PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new SimplePositionEvaluator();
         MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator();
-        MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 2);
+        MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 3);
         Engine<SortingGame, SortingGameMove> engine = new Engine<>(sortingGame, maxStrategy);
 
         System.out.println("Starting position:\n" + sortingGame.toString());

@@ -63,7 +63,7 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
     @Override
     public boolean isTerminal() {
         return buckets.stream()
-                .allMatch(colors -> colors.getValues()
+                .allMatch(colors -> (colors.size() == buckets.get(0).getCapacity() || colors.size() == 0) && colors.getValues()
                         .stream()
                         .allMatch(color -> color == colors.getValues().get(0)));
     }

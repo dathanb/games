@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.jedaway.game.MoveGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,10 @@ public class SortingGameMoveGenerator implements MoveGenerator<SortingGame, Sort
 
     @Override
     public List<SortingGameMove> getMoves(SortingGame game) {
+        if (game.isTerminal()) {
+            return Collections.emptyList();
+        }
+
         List<SortingGameMove> moves = new ArrayList<>();
         List<Bucket> buckets = game.getBuckets();
         Set<Integer> sourceBuckets = new HashSet<>();

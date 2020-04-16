@@ -12,7 +12,7 @@ class MaxMoveTree<GameType extends Game<GameType, MoveType>, MoveType extends Mo
     private final GameType game;
     private final MaxMoveTree<GameType, MoveType> parent;
 
-    private Map<MoveType, GameType> childMoves;
+    private Map<MoveType, MaxMoveTree<GameType, MoveType>> childMoves;
     private double score = Double.NEGATIVE_INFINITY;
 
     public MaxMoveTree(MaxMoveTree<GameType, MoveType> parent, GameType game) {
@@ -34,6 +34,24 @@ class MaxMoveTree<GameType extends Game<GameType, MoveType>, MoveType extends Mo
         if (this.parent != null && this.parent.score < newScore) {
             this.parent.setScore(newScore);
         }
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public Map<MoveType, MaxMoveTree<GameType, MoveType>> getChildren() {
+        return childMoves;
+    }
+
+    public void add(MoveType move, GameType game, double score) {
+        MaxMoveTree<GameType, MoveType> child = new MaxMoveTree<>(this, game);
+        childMoves.put(move, child);
+        child.setScore(score);
+    }
+
+    public void add(MoveType move, MaxMoveTree<GameType, MoveType> child) {
+        this.childMoves.put(move, child);
     }
 
     public GameType getGame() {

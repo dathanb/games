@@ -12,18 +12,22 @@ import java.util.List;
 public class SimplePositionEvaluator implements PositionEvaluator<SortingGame, SortingGameMove> {
     @Override
     public double evaluate(SortingGame gameState) {
+        if (gameState.isTerminal()) {
+            return Double.POSITIVE_INFINITY;
+        }
+
         final AtomicDouble score = new AtomicDouble(0);
         gameState.getBuckets().stream()
                 .filter(bucket -> bucket.size() > 0)
                 .map(Bucket::getValues)
                 .forEach(colors -> {
-                    double bucketScore = 1;
+                    double bucketScore = 0;
                     Color previousColor = colors.get(0);
                     for (int i = 1; i < colors.size(); i++) {
                         if (colors.get(i) != previousColor) {
                             break;
                         }
-                        bucketScore *= 2;
+                        bucketScore = (bucketScore == 0 ? 1 : bucketScore) * 2;
                     }
 
                     score.addAndGet(bucketScore);
