@@ -43,6 +43,8 @@ public class SortingGameMoveGenerator implements MoveGenerator<SortingGame, Sort
                 }
             }
         }
+
+        Collections.shuffle(moves); // eliminate bias in move ordering to minimize likelihood of the engine entering a loop
         return moves;
     }
 }
