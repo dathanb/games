@@ -12,9 +12,9 @@ import java.util.List;
 public class SmokeTest {
     @Test
     public void runSortingGame() {
-        SortingGame sortingGame = SortingGame.randomGame(2, 2);
+        SortingGame sortingGame = SortingGame.randomGame(3, 3);
 
-        PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new SimplePositionEvaluator();
+        PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new OrderingPositionEvaluator();
         MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator();
         MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 3);
         Engine<SortingGame, SortingGameMove> engine = new Engine<>(sortingGame, maxStrategy);

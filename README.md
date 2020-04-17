@@ -107,3 +107,25 @@ The tree seems like the more natural representation -- let's pursue that route.
 We'll have to get a little creative to support hashing irrespective of move history, but that can wait until later, I
 think.
 
+## 2020-04-15
+
+I keep hitting edge cases in my `MaxStrategy`. Now what I've observed is that if at our configured depth we see two paths
+that have the same expected value, we'll choose the first one that was encountered. Then on the next round, we're likely
+to just move the piece right back where it came from, because the two paths were equally valuable (so going back to
+where we started is as valuable as the path we took, because we can always take the same or a different path again, and
+the current path doesn't resolve to something significantly better in time to show up in the path analysis). I think we
+either want to find a way to penalize moving "backward", or to impose some ordering on the moves instead of doing a straight
+breadth-first traversal. By imposing some bias on the movements (or since they're already biased, by randomizing and
+removing that bias) we can probably avoid this. The real problem is that the move generation for the SortingGame is
+deterministic and creates the likelihood of loops when there isn't a clear reason to choose one move over another.
+
+So if we just shuffle our moves before returning them from the MoveGenerator, that may fix this!
+
+It seemed to help a little bit -- but it's still possible for it to get into a loop.
+
+I guess we could just bias the thing to pick the first move that's *better* than the current state? But it already does
+that, so nevermind.
+
+We could try to implement a penalty system where each additional move is a -1 penalty. But right now the MaxStrategy
+only updates the max score when it's greater than the current score.
+
