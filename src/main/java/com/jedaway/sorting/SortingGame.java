@@ -27,7 +27,6 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
         this.buckets = startingBuckets;
     }
 
-
     public static SortingGame randomGame(int numColors, int bucketSize) {
         return randomGame(new Random(), numColors, bucketSize);
     }
@@ -56,14 +55,43 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
 
     @Override
     public SortingGame apply(SortingGameMove move) {
-        // TODO: copy less data here
+        return applyWithShallowCopy(move);
+    }
 
+    private SortingGame applyWithDeepCopy(SortingGameMove move) {
         // get copy of buckets
         List<Bucket> newBuckets = buckets.stream().map(Bucket::new).collect(Collectors.toList());
 
         // apply the move
         Color color = newBuckets.get(move.getSourceBucket()).pop();
         newBuckets.get(move.getDestinationBucket()).push(color);
+
+        return new SortingGame(newBuckets);
+    }
+
+    private SortingGame applyWithShallowCopy(SortingGameMove move) {
+        int minModifiedBucket = Math.min(move.getSourceBucket(), move.getDestinationBucket());
+        int maxModifiedBucket = Math.max(move.getSourceBucket(), move.getDestinationBucket());
+
+        // get the modified buckets
+        Bucket newSourceBucket = new Bucket(buckets.get(move.getSourceBucket()));
+        Bucket newDestinationBucket = new Bucket(buckets.get(move.getDestinationBucket()));
+        newDestinationBucket.push(newSourceBucket.pop());
+
+        List<Bucket> newBuckets = new ArrayList<>();
+
+        // shallow all buckets except the modified buckets
+        for (int i = 0; i < minModifiedBucket; i++) {
+            newBuckets.add(buckets.get(i));
+        }
+        newBuckets.add(minModifiedBucket == move.getSourceBucket() ? newSourceBucket : newDestinationBucket);
+        for (int i = minModifiedBucket + 1; i < maxModifiedBucket; i++) {
+            newBuckets.add(buckets.get(i));
+        }
+        newBuckets.add(maxModifiedBucket == move.getSourceBucket() ? newSourceBucket : newDestinationBucket);
+        for (int i = maxModifiedBucket + 1; i < buckets.size(); i++) {
+            newBuckets.add(buckets.get(i));
+        }
 
         return new SortingGame(newBuckets);
     }
