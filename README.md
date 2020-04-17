@@ -129,3 +129,34 @@ that, so nevermind.
 We could try to implement a penalty system where each additional move is a -1 penalty. But right now the MaxStrategy
 only updates the max score when it's greater than the current score.
 
+## 2020-04-16
+
+I can solve SortingGame consistently using MaxStrategy, OrderingPositionEvaluator, and maxDepth=3. Single-threaded, 
+though, we can't really do maxDepth=4 on 13 colors. Firstly, I'd like to make the MaxStrategy stateful instead of 
+stateless. We can save a LOT of processing if we don't redundantly evaluate all the intermediate positions. That could
+be enough to get us an additional level of depth.
+
+I don't think it necessarily makes sense to have a `StatelessMaxStrategy` and a `StatefulMaxStrategy` as separate 
+implementations. Instead, I think maybe we could pull out some sort of state provider that the `MaxStrategy` interacts
+with, and the stateless strategy would just reset the state after each call.
+
+Or, heck, let's just get rid of the stateless version altogether. That makes more sense to me -- let's make it only 
+stateful.
+
+But we'll need to share the stateful behavior between the MaxStrategy and the MinimaxStrategy, right? Unless MaxStrategy
+turns out to be a subset of Minimax. That might work, but I'd have to look into it more. Rather than work on something
+speculative like that -- Minimax doesn't really make sense for a purely self-cooperative game like this -- I want to
+make incremental progress on the games I can.
+
+That said, it might be that the biggest speed wins would come from making shallow copies of the `SortingGame` instead
+of deep copies. That'd save us a LOT of data and GC time. And it's probably easier, so let's do that first.
+
+Implementation plan / TODO:
+- [ ] make `SortingGame#apply` use shallow copies to make moves faster
+- [ ] make MaxStrategy stateful
+- [ ] 
+
+## 2020-04-17
+
+I implemented shallow copy for `SortingGame#apply`, and while I haven't tried to do any robust profiling, one example
+ran in 1m46s using deep copy and 1m06s using shallow copy, which is really nice. So I think that's a winner.
