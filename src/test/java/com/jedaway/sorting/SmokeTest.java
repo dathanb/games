@@ -8,19 +8,21 @@ import com.jedaway.game.PositionEvaluator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Random;
 
 public class SmokeTest {
     @Test
     public void runSortingGame() {
-        SortingGame sortingGame = SortingGame.randomGame(3, 3);
+        Random random = new Random(1);
+        SortingGame sortingGame = SortingGame.randomGame(random, 13, 4);
 
         PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new OrderingPositionEvaluator();
-        MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator();
+        MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator(new Random(1));
         MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 3);
         Engine<SortingGame, SortingGameMove> engine = new Engine<>(sortingGame, maxStrategy);
 
         System.out.println("Starting position:\n" + sortingGame.toString());
         List<SortingGameMove> run = engine.run();
-        System.out.println("Moves: " + run.toString());
+        System.out.println(String.format("Solved in %d moves: %s", run.size(), run.toString()));
     }
 }

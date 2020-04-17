@@ -7,12 +7,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
  * Generate moves for the SortingGame
  */
 public class SortingGameMoveGenerator implements MoveGenerator<SortingGame, SortingGameMove> {
+    private final Random random;
+
+    public SortingGameMoveGenerator() {
+        this(new Random());
+    }
+
+    public SortingGameMoveGenerator(Random random) {
+        this.random = random;
+    }
+
 
     @Override
     public List<SortingGameMove> getMoves(SortingGame game) {
@@ -44,7 +55,7 @@ public class SortingGameMoveGenerator implements MoveGenerator<SortingGame, Sort
             }
         }
 
-        Collections.shuffle(moves); // eliminate bias in move ordering to minimize likelihood of the engine entering a loop
+        Collections.shuffle(moves, random); // eliminate bias in move ordering to minimize likelihood of the engine entering a loop
         return moves;
     }
 }

@@ -5,8 +5,11 @@ import com.jedaway.game.Move;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -24,14 +27,19 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
         this.buckets = startingBuckets;
     }
 
+
     public static SortingGame randomGame(int numColors, int bucketSize) {
+        return randomGame(new Random(), numColors, bucketSize);
+    }
+
+    public static SortingGame randomGame(Random random, int numColors, int bucketSize) {
         List<Color> colorsToPlace = new ArrayList<>(numColors * bucketSize);
         for (int i = 0; i < numColors; i++) {
             for (int j = 0; j < bucketSize; j++) {
                 colorsToPlace.add(Color.values()[i]);
             }
         }
-        Collections.shuffle(colorsToPlace);
+        Collections.shuffle(colorsToPlace, random);
 
         List<Bucket> buckets = new ArrayList<>(numColors + 1);
         for (int i = 0; i < numColors; i++) {
