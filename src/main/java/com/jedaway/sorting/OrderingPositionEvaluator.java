@@ -17,7 +17,7 @@ public class OrderingPositionEvaluator implements PositionEvaluator<SortingGame,
         return gameState.getBuckets().stream()
                 .filter(bucket -> bucket.size() > 0)
                 .map(Bucket::getValues)
-                .reduce(0, (score, colors) -> {
+                .reduce(0, (cumulativeScore, colors) -> {
                     int bucketScore = 0;
                     int groupScore = 1; // score for current group of consecutive homogeneous colors
                     Color previousColor = colors.get(0);
@@ -30,7 +30,7 @@ public class OrderingPositionEvaluator implements PositionEvaluator<SortingGame,
                         groupScore *= 2;
                     }
                     bucketScore += groupScore;
-                    return bucketScore;
+                    return cumulativeScore + bucketScore;
                 }, Integer::sum);
     }
 }

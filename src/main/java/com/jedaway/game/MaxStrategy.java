@@ -17,6 +17,12 @@ import java.util.concurrent.LinkedBlockingDeque;
  */
 public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType extends Move> implements MoveStrategy<GameType, MoveType> {
     private static final double EARLY_RETURN_THRESHOLD = Double.POSITIVE_INFINITY;
+    /**
+     * Penalize moves at each additional level of depth by this much to encourage taking the fastest path to a good position.
+     *
+     * I don't like doing this because I don't think it translates well to other games; but it makes sense for the SortingGame, so trying it out.
+     */
+    private static final double LEVEL_ADJUSTMENT = 0.01;
     private final PositionEvaluator<GameType, MoveType> positionEvaluator;
     private final MoveGenerator<GameType, MoveType> moveGenerator;
     private final int maxDepth;
@@ -40,9 +46,10 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
         pending.add(root);
 
         for (int i = 0; i < maxDepth; i++) {
+            double scoreAdjustment = -i * LEVEL_ADJUSTMENT;
             Queue<MaxMoveTree<GameType, MoveType>> level = pending;
             pending = new LinkedBlockingDeque<>();
-            traverseOneLevel(level, pending);
+            traverseOneLevel(level, pending, scoreAdjustment);
             if (root.getScore() >= EARLY_RETURN_THRESHOLD) {
                 break;
             }
@@ -57,13 +64,13 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
                 .map(Map.Entry::getKey);
     }
 
-    private void traverseOneLevel(Queue<MaxMoveTree<GameType, MoveType>> level, Queue<MaxMoveTree<GameType, MoveType>> pending) {
+    private void traverseOneLevel(Queue<MaxMoveTree<GameType, MoveType>> level, Queue<MaxMoveTree<GameType, MoveType>> pending, double adjustment) {
         for (MaxMoveTree<GameType, MoveType> position : level) {
             for (MoveType move : moveGenerator.getMoves(position.getGame())) {
                 GameType newGameState = position.getGame().apply(move);
                 MaxMoveTree<GameType, MoveType> newPosition = new MaxMoveTree<>(position, newGameState);
                 position.add(move, newPosition);
-                newPosition.setScore(positionEvaluator.evaluate(newGameState));
+                newPosition.setScore(positionEvaluator.evaluate(newGameState) + adjustment);
 
                 pending.add(newPosition); // TODO: when already at max depth, don't enqueue more positions
             }
