@@ -9,6 +9,22 @@ Contains implementations of engines and "AI"s for a few different games:
 My goal in working on this project has been to iteratively build a generic engine that plays games that conform to
 a shared model of a what a game looks like, and implementations of various games.
 
+# General
+
+
+## SortingGame
+
+TODO:
+- [X] Use shallow copy for calculating new positions
+- [ ] Cache bucket instances
+- [ ] Cache bucket scores
+- [ ] Use arrays for bucket contents
+- [ ] Use integers for bucket contents
+- [ ] Use integer array for SortingGame state
+- [ ] Make MaxStrategy stateful to reduce redundant move evaluations
+- [ ] Multithreaded MaxStrategy
+- [ ] Alpha pruning
+
 #Journal
 
 ## 2020-04-11
@@ -152,7 +168,7 @@ That said, it might be that the biggest speed wins would come from making shallo
 of deep copies. That'd save us a LOT of data and GC time. And it's probably easier, so let's do that first.
 
 Implementation plan / TODO:
-- [ ] make `SortingGame#apply` use shallow copies to make moves faster
+- [X] make `SortingGame#apply` use shallow copies to make moves faster
 - [ ] make MaxStrategy stateful
 - [ ] 
 
