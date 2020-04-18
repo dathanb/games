@@ -176,3 +176,14 @@ Implementation plan / TODO:
 
 I implemented shallow copy for `SortingGame#apply`, and while I haven't tried to do any robust profiling, one example
 ran in 1m46s using deep copy and 1m06s using shallow copy, which is really nice. So I think that's a winner.
+
+## 2020-04-18
+
+I added a TODO to cache bucket instances so we have a single copy of each bucket that we've calculated. In theory it
+makes sense, but I'm not sure it really does, because the premise was to reduce allocations and array copies to speed
+up execution and reduce memory pressure. However, in the current form we'd have to construct the Bucket first in order
+to find it in the cache. That doesn't really reduce allocations much.
+
+So instead of doing that, I'm going to make the change where we switch to an integer representation of Bucket first.
+In order to make it easier, I'm going to settle on the maximum game size -- 16 colors (can be represented in 4 bits)
+and buckets with capacity=16 (16 spaces * 4 bits = 64 bits, which will fill a java long).
