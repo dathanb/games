@@ -5,9 +5,7 @@ import com.jedaway.game.Move;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -126,7 +124,7 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int row=buckets.get(0).getCapacity()-1; row>=0; row--) {
+        for (int row = buckets.get(0).getCapacity() - 1; row >= 0; row--) {
             for (Bucket bucket : buckets) {
                 String value = "";
                 if (bucket.size() > row) {
