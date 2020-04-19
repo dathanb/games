@@ -9,11 +9,9 @@ import com.jedaway.game.PositionEvaluator;
 public class OrderingPositionEvaluator implements PositionEvaluator<SortingGame, SortingGameMove> {
     @Override
     public double evaluate(SortingGame gameState) {
-        if (gameState.isTerminal()) {
-            return Double.POSITIVE_INFINITY;
-        }
+        double maxScore = (gameState.getBuckets().size() - 1) * Math.pow(2, gameState.getBuckets().get(0).capacity);
 
-        return gameState.getBuckets().stream()
+        double positionScore = gameState.getBuckets().stream()
                 .filter(bucket -> bucket.size() > 0)
                 .map(Bucket::getRawStack)
                 .reduce(0, (cumulativeScore, stack) -> {
@@ -33,5 +31,10 @@ public class OrderingPositionEvaluator implements PositionEvaluator<SortingGame,
                     bucketScore += groupScore;
                     return cumulativeScore + bucketScore;
                 }, Integer::sum);
+
+        if (positionScore >= maxScore) {
+            return Double.POSITIVE_INFINITY; // score for terminal position
+        }
+        return positionScore;
     }
 }
