@@ -1,10 +1,15 @@
 package com.jedaway.game;
 
+import com.google.common.base.Stopwatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The MaxStrategy recursively descends the move tree to a particular depth, and returns the move with the greatest possible outcome.
@@ -16,6 +21,8 @@ import java.util.concurrent.LinkedBlockingDeque;
  * @param <MoveType>
  */
 public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType extends Move> implements MoveStrategy<GameType, MoveType> {
+    private static final Logger LOG = LoggerFactory.getLogger(MaxStrategy.class);
+
     private static final double EARLY_RETURN_THRESHOLD = Double.POSITIVE_INFINITY;
     /**
      * Penalize moves at each additional level of depth by this much to encourage taking the fastest path to a good position.
@@ -49,7 +56,11 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
             double scoreAdjustment = -i * LEVEL_ADJUSTMENT;
             Queue<MaxMoveTree<GameType, MoveType>> level = pending;
             pending = new LinkedBlockingDeque<>();
+            LOG.debug("Checked ply {}; {} positions enqueued", i, level.size());
+            Stopwatch stopwatch = Stopwatch.createStarted();
             traverseOneLevel(level, pending, scoreAdjustment);
+            stopwatch.stop();
+            LOG.debug("Finished in {} milliseconds", stopwatch.elapsed(TimeUnit.MILLISECONDS));
             if (root.getScore() >= EARLY_RETURN_THRESHOLD) {
                 break;
             }
