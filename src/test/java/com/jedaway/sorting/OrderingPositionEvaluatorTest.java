@@ -1,6 +1,5 @@
 package com.jedaway.sorting;
 
-import jdk.jfr.Description;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -34,12 +33,12 @@ public class OrderingPositionEvaluatorTest {
         @DisplayName("gives a bonus to groups anchored at the bottom of the bucket")
         public void rewardsAnchorGroups() {
             List<Bucket> buckets = new ArrayList<>();
-            Bucket bucket = new Bucket(3);
-            bucket.push(Color.RED);
-            bucket.push(Color.RED);
-            bucket.push(Color.ORANGE);
+            Bucket bucket = new Bucket(3)
+                    .push(Color.RED)
+                    .push(Color.RED)
+                    .push(Color.ORANGE);
             buckets.add(bucket);
-            buckets.add(new Bucket(2));
+            buckets.add(new Bucket(3));
             SortingGame game = new SortingGame(buckets);
             assertFalse(game.isTerminal());
             assertEquals(5.0, new OrderingPositionEvaluator().evaluate(game));
