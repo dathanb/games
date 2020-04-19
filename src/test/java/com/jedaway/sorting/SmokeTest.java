@@ -18,7 +18,7 @@ public class SmokeTest {
 
         PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new OrderingPositionEvaluator();
         MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator(new Random(1));
-        MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 3);
+        MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 4);
         Engine<SortingGame, SortingGameMove> engine = new Engine<>(sortingGame, maxStrategy);
 
         System.out.println("Starting position:\n" + sortingGame.toString());

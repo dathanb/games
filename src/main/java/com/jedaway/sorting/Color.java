@@ -26,6 +26,10 @@ public enum Color {
         this.isReal = isReal;
     }
 
+    public int getCode() {
+        return code;
+    }
+
     public static Color getByCode(int code) {
         switch (code) {
             case 0:
@@ -63,5 +67,9 @@ public enum Color {
             default:
                 throw new RuntimeException(String.format("Code %d does not correspond to a color", code));
         }
+    }
+
+    public static Color getByCode(long code) {
+        return getByCode((int)code);
     }
 }

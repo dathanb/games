@@ -33,7 +33,7 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
 
     public static SortingGame randomGame(Random random) {
         List<Color> colorsToPlace = new ArrayList<>(NUM_COLORS * BUCKET_SIZE);
-        for (int i = 0; i < NUM_COLORS; i++) {
+        for (int i = 1; i <= NUM_COLORS; i++) {
             for (int j = 0; j < BUCKET_SIZE; j++) {
                 colorsToPlace.add(Color.values()[i]);
             }
@@ -42,11 +42,12 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
 
         List<Bucket> buckets = new ArrayList<>(NUM_COLORS + 1);
         for (int i = 0; i < NUM_COLORS; i++) {
-            buckets.add(new Bucket(BUCKET_SIZE));
+            Bucket newBucket = new Bucket(BUCKET_SIZE);
             for (int j = 0; j < BUCKET_SIZE; j++) {
-                buckets.get(i).push(colorsToPlace.get(colorsToPlace.size() - 1));
+                newBucket = newBucket.push(colorsToPlace.get(colorsToPlace.size() - 1));
                 colorsToPlace.remove(colorsToPlace.size() - 1);
             }
+            buckets.add(newBucket);
         }
         buckets.add(new Bucket(BUCKET_SIZE));
 
@@ -58,25 +59,15 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
         return applyWithShallowCopy(move);
     }
 
-    private SortingGame applyWithDeepCopy(SortingGameMove move) {
-        // get copy of buckets
-        List<Bucket> newBuckets = buckets.stream().map(Bucket::new).collect(Collectors.toList());
-
-        // apply the move
-        Color color = newBuckets.get(move.getSourceBucket()).pop();
-        newBuckets.get(move.getDestinationBucket()).push(color);
-
-        return new SortingGame(newBuckets);
-    }
-
     private SortingGame applyWithShallowCopy(SortingGameMove move) {
         int minModifiedBucket = Math.min(move.getSourceBucket(), move.getDestinationBucket());
         int maxModifiedBucket = Math.max(move.getSourceBucket(), move.getDestinationBucket());
 
         // get the modified buckets
-        Bucket newSourceBucket = new Bucket(buckets.get(move.getSourceBucket()));
-        Bucket newDestinationBucket = new Bucket(buckets.get(move.getDestinationBucket()));
-        newDestinationBucket.push(newSourceBucket.pop());
+        Bucket originalSourceBucket = buckets.get(move.getSourceBucket());
+        Bucket originalDestinationBucket = buckets.get(move.getDestinationBucket());
+        Bucket newSourceBucket = originalSourceBucket.pop();
+        Bucket newDestinationBucket = originalDestinationBucket.push(originalSourceBucket.peek());
 
         List<Bucket> newBuckets = new ArrayList<>();
 
