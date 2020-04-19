@@ -11,6 +11,9 @@ a shared model of a what a game looks like, and implementations of various games
 
 # General
 
+TODO:
+- [ ] Instead of using logging for perf analysis, start recording metrics explicitly
+
 # Setup
 
 In order to get log output while running tests, you'll want to specify a system property: 
