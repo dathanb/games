@@ -11,6 +11,10 @@ a shared model of a what a game looks like, and implementations of various games
 
 # General
 
+# Setup
+
+In order to get log output while running tests, you'll want to specify a system property: 
+`-Dlog4j.configuration=file://path/to/src/main/resources/jog4j.properties`
 
 ## SortingGame
 

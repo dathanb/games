@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
     implementation("com.google.guava:guava:27.0.1-jre")
+    implementation("org.slf4j:slf4j-log4j12:1.7.28")
 
     // Use JUnit test framework
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
