@@ -56,11 +56,13 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
             double scoreAdjustment = -i * LEVEL_ADJUSTMENT;
             Queue<MaxMoveTree<GameType, MoveType>> level = pending;
             pending = new LinkedBlockingDeque<>();
-            LOG.debug("Checked ply {}; {} positions enqueued", i, level.size());
+            int positionsToVisit = level.size();
+            LOG.debug("Checked ply {}; {} positions enqueued", i, positionsToVisit);
             Stopwatch stopwatch = Stopwatch.createStarted();
             traverseOneLevel(level, pending, scoreAdjustment);
             stopwatch.stop();
-            LOG.debug("Finished in {} milliseconds", stopwatch.elapsed(TimeUnit.MILLISECONDS));
+            LOG.debug("Finished in {} milliseconds; {} moves per second", stopwatch.elapsed(TimeUnit.MILLISECONDS), ((double)positionsToVisit)/stopwatch.elapsed(TimeUnit.MICROSECONDS)*1_000_000);
+
             if (root.getScore() >= EARLY_RETURN_THRESHOLD) {
                 break;
             }
