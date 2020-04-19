@@ -56,7 +56,7 @@ public class Bucket {
             throw new RuntimeException("Already at capacity");
         }
 
-        long newStack = stack | (((long)color.getCode()) << (size * 4));
+        long newStack = stack | (((long) color.getCode()) << (size * 4));
         return new Bucket(newStack, capacity, size + 1);
     }
 
@@ -102,6 +102,10 @@ public class Bucket {
             tempStack >>= 4;
         }
         return colors;
+    }
+
+    long getRawStack() {
+        return stack;
     }
 
     @Override

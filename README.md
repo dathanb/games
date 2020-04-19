@@ -22,8 +22,9 @@ TODO:
 - [X] Use shallow copy for calculating new positions
 - [ ] Cache bucket instances
 - [ ] Cache bucket scores
-- [ ] Use arrays for bucket contents
-- [ ] Use integers for bucket contents
+- [-] Use arrays for bucket contents
+- [X] Use integers for bucket contents
+- [X] Detect terminal states operationally during move evaluation
 - [ ] Use integer array for SortingGame state
 - [ ] Make MaxStrategy stateful to reduce redundant move evaluations
 - [ ] Multithreaded MaxStrategy
@@ -204,3 +205,11 @@ It doesn't. But there's a good chance it's because we're still doing move calcul
 actually shifting the execution elsewhere. I think if we give the `OrderingPositionEvaluator` access to the `Bucket`
 internals, there's a good chance we can get it a lot faster.
 
+Well, it's still slow. I bet a big part of it is that we're checking `SortingGame#isTerminal` a bunch of times.
+Instead of that, I think we can special-case it: we know how many buckets there are and how deep they are, so we can
+easily calculate the score of a terminal position. So let's skip the `isTerminal` check in favor of detecting terminal
+positions after evaluating them. That should save us at least half our effort.
+
+It didn't even make a dent in the calculation time for some of the depth-4 positions, as far as I can tell, but between
+this and the previous optimization, we cut the time for the depth-3 calculation in half. That suggests that there's
+some other limiting factor for speed in the depth-4 version?

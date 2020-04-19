@@ -1,6 +1,5 @@
 package com.jedaway.sorting;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import com.jedaway.game.PositionEvaluator;
 
 /**
@@ -10,19 +9,19 @@ import com.jedaway.game.PositionEvaluator;
 public class OrderingPositionEvaluator implements PositionEvaluator<SortingGame, SortingGameMove> {
     @Override
     public double evaluate(SortingGame gameState) {
-        if (gameState.isTerminal()) {
-            return Double.POSITIVE_INFINITY;
-        }
+        double maxScore = (gameState.getBuckets().size() - 1) * Math.pow(2, gameState.getBuckets().get(0).capacity);
 
-        return gameState.getBuckets().stream()
+        double positionScore = gameState.getBuckets().stream()
                 .filter(bucket -> bucket.size() > 0)
-                .map(Bucket::getValues)
-                .reduce(0, (cumulativeScore, colors) -> {
+                .map(Bucket::getRawStack)
+                .reduce(0, (cumulativeScore, stack) -> {
                     int bucketScore = 0;
                     int groupScore = 1; // score for current group of consecutive homogeneous colors
-                    Color previousColor = colors.get(0);
-                    for (int i = 0; i < colors.size(); i++) {
-                        if (colors.get(i) != previousColor) {
+                    long previousColor = stack & 0x0f;
+                    while (stack != 0) {
+                        long currentColor = stack & 0x0f;
+                        stack >>>= 4;
+                        if (currentColor != previousColor) {
                             bucketScore += groupScore;
                             groupScore = 1;
                             continue;
@@ -32,5 +31,10 @@ public class OrderingPositionEvaluator implements PositionEvaluator<SortingGame,
                     bucketScore += groupScore;
                     return cumulativeScore + bucketScore;
                 }, Integer::sum);
+
+        if (positionScore >= maxScore) {
+            return Double.POSITIVE_INFINITY; // score for terminal position
+        }
+        return positionScore;
     }
 }
