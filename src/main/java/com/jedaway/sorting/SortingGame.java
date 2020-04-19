@@ -19,34 +19,36 @@ import java.util.stream.Collectors;
  * A SortingGame is a set of N colors, and N+1 buckets that will each hold up to M balls.
  */
 public class SortingGame implements Game<SortingGame, SortingGameMove> {
-    private final List<Bucket> buckets;
+    private List<Bucket> buckets;
+    private static final int BUCKET_SIZE = 4;
+    private static final int NUM_COLORS = 15;
 
     public SortingGame(List<Bucket> startingBuckets) {
         this.buckets = startingBuckets;
     }
 
-    public static SortingGame randomGame(int numColors, int bucketSize) {
-        return randomGame(new Random(), numColors, bucketSize);
+    public static SortingGame randomGame() {
+        return randomGame(new Random());
     }
 
-    public static SortingGame randomGame(Random random, int numColors, int bucketSize) {
-        List<Color> colorsToPlace = new ArrayList<>(numColors * bucketSize);
-        for (int i = 0; i < numColors; i++) {
-            for (int j = 0; j < bucketSize; j++) {
+    public static SortingGame randomGame(Random random) {
+        List<Color> colorsToPlace = new ArrayList<>(NUM_COLORS * BUCKET_SIZE);
+        for (int i = 0; i < NUM_COLORS; i++) {
+            for (int j = 0; j < BUCKET_SIZE; j++) {
                 colorsToPlace.add(Color.values()[i]);
             }
         }
         Collections.shuffle(colorsToPlace, random);
 
-        List<Bucket> buckets = new ArrayList<>(numColors + 1);
-        for (int i = 0; i < numColors; i++) {
-            buckets.add(new Bucket(bucketSize));
-            for (int j = 0; j < bucketSize; j++) {
+        List<Bucket> buckets = new ArrayList<>(NUM_COLORS + 1);
+        for (int i = 0; i < NUM_COLORS; i++) {
+            buckets.add(new Bucket(BUCKET_SIZE));
+            for (int j = 0; j < BUCKET_SIZE; j++) {
                 buckets.get(i).push(colorsToPlace.get(colorsToPlace.size() - 1));
                 colorsToPlace.remove(colorsToPlace.size() - 1);
             }
         }
-        buckets.add(new Bucket(bucketSize));
+        buckets.add(new Bucket(BUCKET_SIZE));
 
         return new SortingGame(buckets);
     }

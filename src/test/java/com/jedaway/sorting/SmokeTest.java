@@ -14,7 +14,7 @@ public class SmokeTest {
     @Test
     public void runSortingGame() {
         Random random = new Random(1);
-        SortingGame sortingGame = SortingGame.randomGame(random, 15, 4);
+        SortingGame sortingGame = SortingGame.randomGame(random);
 
         PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new OrderingPositionEvaluator();
         MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator(new Random(1));

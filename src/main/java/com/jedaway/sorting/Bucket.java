@@ -1,6 +1,5 @@
 package com.jedaway.sorting;
 
-import com.google.common.collect.ImmutableList;
 import com.jedaway.game.PositionEvaluator;
 
 import java.util.ArrayList;
@@ -9,7 +8,10 @@ import java.util.Objects;
 import java.util.Stack;
 
 /**
- * A Bucket is a LIFO stack of fixed capacity that allows game pieces ("balls") to be pushed and popped.
+ * In concept, a bucket is a LIFO stack of fixed capacity that allows game pieces ("balls") to be pushed and popped.
+ *
+ * In our SortingGame, a bucket is encoded into a long; the Bucket class contains static methods that make working with
+ * those integers easier.
  */
 public class Bucket {
     private final int capacity;

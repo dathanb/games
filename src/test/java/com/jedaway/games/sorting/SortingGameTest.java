@@ -22,7 +22,7 @@ public class SortingGameTest {
 
         @BeforeEach
         public void beforeEach() {
-            sortingGame = SortingGame.randomGame(4, 4);
+            sortingGame = SortingGame.randomGame();
         }
 
         @Test
