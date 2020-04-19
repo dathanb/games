@@ -19,34 +19,37 @@ import java.util.stream.Collectors;
  * A SortingGame is a set of N colors, and N+1 buckets that will each hold up to M balls.
  */
 public class SortingGame implements Game<SortingGame, SortingGameMove> {
-    private final List<Bucket> buckets;
+    private List<Bucket> buckets;
+    private static final int BUCKET_SIZE = 4;
+    private static final int NUM_COLORS = 15;
 
     public SortingGame(List<Bucket> startingBuckets) {
         this.buckets = startingBuckets;
     }
 
-    public static SortingGame randomGame(int numColors, int bucketSize) {
-        return randomGame(new Random(), numColors, bucketSize);
+    public static SortingGame randomGame() {
+        return randomGame(new Random());
     }
 
-    public static SortingGame randomGame(Random random, int numColors, int bucketSize) {
-        List<Color> colorsToPlace = new ArrayList<>(numColors * bucketSize);
-        for (int i = 0; i < numColors; i++) {
-            for (int j = 0; j < bucketSize; j++) {
+    public static SortingGame randomGame(Random random) {
+        List<Color> colorsToPlace = new ArrayList<>(NUM_COLORS * BUCKET_SIZE);
+        for (int i = 1; i <= NUM_COLORS; i++) {
+            for (int j = 0; j < BUCKET_SIZE; j++) {
                 colorsToPlace.add(Color.values()[i]);
             }
         }
         Collections.shuffle(colorsToPlace, random);
 
-        List<Bucket> buckets = new ArrayList<>(numColors + 1);
-        for (int i = 0; i < numColors; i++) {
-            buckets.add(new Bucket(bucketSize));
-            for (int j = 0; j < bucketSize; j++) {
-                buckets.get(i).push(colorsToPlace.get(colorsToPlace.size() - 1));
+        List<Bucket> buckets = new ArrayList<>(NUM_COLORS + 1);
+        for (int i = 0; i < NUM_COLORS; i++) {
+            Bucket newBucket = new Bucket(BUCKET_SIZE);
+            for (int j = 0; j < BUCKET_SIZE; j++) {
+                newBucket = newBucket.push(colorsToPlace.get(colorsToPlace.size() - 1));
                 colorsToPlace.remove(colorsToPlace.size() - 1);
             }
+            buckets.add(newBucket);
         }
-        buckets.add(new Bucket(bucketSize));
+        buckets.add(new Bucket(BUCKET_SIZE));
 
         return new SortingGame(buckets);
     }
@@ -56,25 +59,15 @@ public class SortingGame implements Game<SortingGame, SortingGameMove> {
         return applyWithShallowCopy(move);
     }
 
-    private SortingGame applyWithDeepCopy(SortingGameMove move) {
-        // get copy of buckets
-        List<Bucket> newBuckets = buckets.stream().map(Bucket::new).collect(Collectors.toList());
-
-        // apply the move
-        Color color = newBuckets.get(move.getSourceBucket()).pop();
-        newBuckets.get(move.getDestinationBucket()).push(color);
-
-        return new SortingGame(newBuckets);
-    }
-
     private SortingGame applyWithShallowCopy(SortingGameMove move) {
         int minModifiedBucket = Math.min(move.getSourceBucket(), move.getDestinationBucket());
         int maxModifiedBucket = Math.max(move.getSourceBucket(), move.getDestinationBucket());
 
         // get the modified buckets
-        Bucket newSourceBucket = new Bucket(buckets.get(move.getSourceBucket()));
-        Bucket newDestinationBucket = new Bucket(buckets.get(move.getDestinationBucket()));
-        newDestinationBucket.push(newSourceBucket.pop());
+        Bucket originalSourceBucket = buckets.get(move.getSourceBucket());
+        Bucket originalDestinationBucket = buckets.get(move.getDestinationBucket());
+        Bucket newSourceBucket = originalSourceBucket.pop();
+        Bucket newDestinationBucket = originalDestinationBucket.push(originalSourceBucket.peek());
 
         List<Bucket> newBuckets = new ArrayList<>();
 

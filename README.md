@@ -191,3 +191,16 @@ to find it in the cache. That doesn't really reduce allocations much.
 So instead of doing that, I'm going to make the change where we switch to an integer representation of Bucket first.
 In order to make it easier, I'm going to settle on the maximum game size -- 16 colors (can be represented in 4 bits)
 and buckets with capacity=16 (16 spaces * 4 bits = 64 bits, which will fill a java long).
+
+Well, after rewriting to get rid of the List from the Bucket class, our performance is unchanged, or maybe a little
+slower. I'm not sure why that would be, but it is. So, since the code is less clear and less flexible in this new
+version, I'm not sure whether I want to keep it or not.
+
+Let's evaluate more. I ran 15 colors, bucket size 4, search depth 3, and got similar performance in both the List
+version and the integral version. So let's see if the integral version gives us any leverage in higher search depths
+where we're more likely to see memory pressure.
+
+It doesn't. But there's a good chance it's because we're still doing move calculation in a really naive way that's
+actually shifting the execution elsewhere. I think if we give the `OrderingPositionEvaluator` access to the `Bucket`
+internals, there's a good chance we can get it a lot faster.
+
