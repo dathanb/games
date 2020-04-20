@@ -5,29 +5,28 @@ import java.util.Map;
 
 /**
  * A tree of moves starting from some base game state. Used by MaxMoveStrategy to choose moves.
- *
+ * <p>
  * When a score is associated with a node, if the score is greater than its parent's score, the new score is also assigned to the parent.
  */
 class MaxMoveTree<GameType extends Game<GameType, MoveType>, MoveType extends Move> {
     private final GameType game;
     private final MaxMoveTree<GameType, MoveType> parent;
-
+    private final int depth;
     private Map<MoveType, MaxMoveTree<GameType, MoveType>> childMoves;
     private double score = Double.NEGATIVE_INFINITY;
-
     public MaxMoveTree(MaxMoveTree<GameType, MoveType> parent, GameType game) {
         this.parent = parent;
         this.game = game;
+        this.depth = parent == null ? 0 : parent.depth + 1;
         childMoves = new HashMap<>();
     }
 
-    /**
-     * Associate a score with this game state, and if it's greater than the
-     * @param score
-     */
-    public void setScore(double score) {
-        this.score = score;
-        propagateMaxScore(score);
+    public int getDepth() {
+        return depth;
+    }
+
+    public MaxMoveTree<GameType, MoveType> getParent() {
+        return parent;
     }
 
     protected void propagateMaxScore(double newScore) {
@@ -38,6 +37,16 @@ class MaxMoveTree<GameType extends Game<GameType, MoveType>, MoveType extends Mo
 
     public double getScore() {
         return score;
+    }
+
+    /**
+     * Associate a score with this game state, and if it's greater than the
+     *
+     * @param score
+     */
+    public void setScore(double score) {
+        this.score = score;
+//        propagateMaxScore(score);
     }
 
     public Map<MoveType, MaxMoveTree<GameType, MoveType>> getChildren() {
