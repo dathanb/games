@@ -239,3 +239,7 @@ We just need to prune our backlog to keep from OOM'ing in the meantime.
 
 But maybe we don't even need that. Let's start with just prioritizing good moves.
 
+OK, so I've basically implemented depth-first search, prioritizing search of the best moves found so far. And an
+interesting thing happened -- it makes an order of magnitude more moves, but solves the puzzle in the blink of an eye.
+
+I think I can tune that by penalizing depth a little more - let's give it a shot!
