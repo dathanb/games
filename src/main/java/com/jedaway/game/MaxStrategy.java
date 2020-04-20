@@ -34,21 +34,18 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
      * <p>
      * I don't like doing this because I don't think it translates well to other games; but it makes sense for the SortingGame, so trying it out.
      */
-    private static final double LEVEL_ADJUSTMENT = 0.01;
+    private static final double LEVEL_ADJUSTMENT = 1;
     private final PositionEvaluator<GameType, MoveType> positionEvaluator;
     private final MoveGenerator<GameType, MoveType> moveGenerator;
-    private final int maxDepth;
     private final MetricRegistry metrics;
     private final Counter numPositionsEvaluated;
     private final Meter positionEvaluationMeter;
 
     public MaxStrategy(PositionEvaluator<GameType, MoveType> positionEvaluator,
                        MoveGenerator<GameType, MoveType> moveGenerator,
-                       int maxDepth,
                        MetricRegistry metrics) {
         this.positionEvaluator = positionEvaluator;
         this.moveGenerator = moveGenerator;
-        this.maxDepth = maxDepth;
         this.metrics = metrics;
         this.numPositionsEvaluated = metrics.counter(NUM_POSITIONS_EVALUATED);
         this.positionEvaluationMeter = metrics.meter(POSITION_EVALUATION_METER);
@@ -58,7 +55,9 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
     public Optional<MoveType> chooseMove(GameType game) {
         // Just a breadth-first traversal to maximum configured depth
 
-        MinMaxPriorityQueue<MaxMoveTree<GameType, MoveType>> pending = MinMaxPriorityQueue.orderedBy(Comparator.<MaxMoveTree<GameType,MoveType>>comparingDouble(MaxMoveTree::getScore))
+        MinMaxPriorityQueue<MaxMoveTree<GameType, MoveType>> pending = MinMaxPriorityQueue
+                // intentionally reverse the comparison order, because PriorityQueues in Java are intrinsically min-heaps, but we want max-heap semantics
+                .orderedBy((Comparator<MaxMoveTree<GameType, MoveType>>)(tree1, tree2) -> Double.compare(tree2.getScore(), tree1.getScore()))
                 .maximumSize(MAX_QUEUE_SIZE)
                 .create();
         MaxMoveTree<GameType, MoveType> root = new MaxMoveTree<>(null, game);
@@ -69,7 +68,7 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
         do {
             visit(latest, pending);
             latest = pending.poll();
-        } while (latest != null && latest.getScore() - root.getScore() > -EARLY_RETURN_THRESHOLD);
+        } while (latest != null && latest.getScore() - root.getScore() < EARLY_RETURN_THRESHOLD);
 
         return getNextMoveInPath(root, latest);
     }
@@ -79,7 +78,7 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
             GameType newGameState = tree.getGame().apply(move);
             MaxMoveTree<GameType, MoveType> newPosition = new MaxMoveTree<>(tree, newGameState);
             tree.add(move, newPosition);
-            newPosition.setScore(-(positionEvaluator.evaluate(newGameState) - newPosition.getDepth() * LEVEL_ADJUSTMENT));
+            newPosition.setScore(positionEvaluator.evaluate(newGameState) - newPosition.getDepth() * LEVEL_ADJUSTMENT);
             pending.add(newPosition);
             numPositionsEvaluated.inc();
             positionEvaluationMeter.mark();
@@ -103,24 +102,6 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
                 .findFirst()
                 .map(Map.Entry::getKey);
     }
-
-    private void traverseOneLevel(Queue<MaxMoveTree<GameType, MoveType>> level, Queue<MaxMoveTree<GameType, MoveType>> pending, double adjustment, int depth) {
-        for (MaxMoveTree<GameType, MoveType> position : level) {
-            for (MoveType move : moveGenerator.getMoves(position.getGame())) {
-                GameType newGameState = position.getGame().apply(move);
-                MaxMoveTree<GameType, MoveType> newPosition = new MaxMoveTree<>(position, newGameState);
-                position.add(move, newPosition);
-                newPosition.setScore(positionEvaluator.evaluate(newGameState) + adjustment);
-                numPositionsEvaluated.inc();
-                positionEvaluationMeter.mark();
-
-                if (depth < maxDepth - 1) {
-                    pending.add(newPosition); // TODO: when already at max depth, don't enqueue more positions
-                }
-            }
-        }
-    }
-
 }
 
 
