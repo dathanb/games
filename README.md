@@ -33,6 +33,9 @@ TODO:
 - [ ] Make MaxStrategy stateful to reduce redundant move evaluations
 - [ ] Multithreaded MaxStrategy
 - [ ] Alpha pruning
+- [ ] Prioritize good positions
+- [ ] Deprioritize bad positions
+- [ ] Early-return based on relative threshold instead of absolute
 
 #Journal
 
@@ -217,3 +220,22 @@ positions after evaluating them. That should save us at least half our effort.
 It didn't even make a dent in the calculation time for some of the depth-4 positions, as far as I can tell, but between
 this and the previous optimization, we cut the time for the depth-3 calculation in half. That suggests that there's
 some other limiting factor for speed in the depth-4 version?
+
+## 2020-04-19
+
+After noodling on it for a while, I'm not sure there's a ton of value in sticking with breadth-first search for
+SortingGame. Since this type of puzzle isn't competitive, we don't really need to worry about exhaustively exploring
+moves in case there's one that hoses us. And since we're just interesting in being able to solve large puzzles, not
+in finding the most efficient solution, once we've found a "good" move we don't need to spend a lot of time evaluating
+other moves -- let's make a "good" move and then see what the game looks like from there.
+
+So I have three ideas:
+1. Make our early-return threshold relative to the root score, and decrease it significantly (e.g., to 8).
+2. Aggressively prune negative positions after a couple of levels
+3. Prioritize our search based on position quality.
+
+If we prioritize our search based on position quality, we can do away with the breadth-first search entirely, rigtht?
+We just need to prune our backlog to keep from OOM'ing in the meantime.
+
+But maybe we don't even need that. Let's start with just prioritizing good moves.
+
