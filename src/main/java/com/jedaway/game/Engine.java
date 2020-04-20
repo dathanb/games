@@ -1,5 +1,6 @@
 package com.jedaway.game;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Optional;
  * Engine is the class responsible for running the game.
  */
 public class Engine<GameType extends Game<GameType, MoveType>, MoveType extends Move> {
+    private final MetricRegistry metrics;
     private final GameType initialGameState;
     private final MoveStrategy<GameType, MoveType> strategy;
     private final ArrayList<MoveType> moves;
@@ -20,6 +22,15 @@ public class Engine<GameType extends Game<GameType, MoveType>, MoveType extends 
         this.currentGameState = initialGameState;
         this.strategy = strategy;
         this.moves = new ArrayList<>();
+        this.metrics = new MetricRegistry();
+    }
+
+    public Engine(GameType initialGameState, MoveStrategy<GameType, MoveType> strategy, MetricRegistry metricRegistry) {
+        this.initialGameState = initialGameState;
+        this.currentGameState = initialGameState;
+        this.strategy = strategy;
+        this.moves = new ArrayList<>();
+        this.metrics = metricRegistry;
     }
 
     public List<MoveType> run() {
