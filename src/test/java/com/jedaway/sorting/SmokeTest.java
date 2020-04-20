@@ -22,7 +22,7 @@ public class SmokeTest {
         PositionEvaluator<SortingGame, SortingGameMove> positionEvaluator = new OrderingPositionEvaluator();
         MoveGenerator<SortingGame, SortingGameMove> moveGenerator = new SortingGameMoveGenerator(new Random(1));
         MetricRegistry metrics = new MetricRegistry();
-        MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, 3, metrics);
+        MoveStrategy<SortingGame, SortingGameMove> maxStrategy = new MaxStrategy<>(positionEvaluator, moveGenerator, metrics);
         ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics)
                 .convertRatesTo(TimeUnit.SECONDS)
                 .convertDurationsTo(TimeUnit.MILLISECONDS)
