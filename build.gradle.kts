@@ -23,6 +23,7 @@ repositories {
 dependencies {
     implementation("com.google.guava:guava:27.0.1-jre")
     implementation("org.slf4j:slf4j-log4j12:1.7.28")
+    implementation("io.dropwizard.metrics:metrics-core:4.1.2")
 
     // Use JUnit test framework
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
