@@ -252,3 +252,14 @@ already evaluated (since they're lal essentially equally-valued).
 
 I don't think we want to keep a cache of all those positions quite yet. Maybe a Bloom filter to just prevent re-visiting
 any we've visited before?
+
+So now where are we?
+
+We could save a lot of time and computing effort by making the MaxMoveStrategy stateful, right? Keep the position tree
+between calls. And we could either just trim it when asked to choose a move (we'd assume that we were asked to choose
+a move and then our move was respected and no moves were made without consulting us; or we could throw away the tree
+if that assumption was violated); or we could register the MaxMoveStrategy as a listener on the Engine, and when the
+Engine made a move we'd get informed about it and update internal state to avoid keeping track of any moves that were
+no longer relevant.
+
+Let's do the former, just because it doesn't require introducing new APIs.
