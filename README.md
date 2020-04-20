@@ -12,7 +12,7 @@ a shared model of a what a game looks like, and implementations of various games
 # General
 
 TODO:
-- [ ] Instead of using logging for perf analysis, start recording metrics explicitly
+- [X] Instead of using logging for perf analysis, start recording metrics explicitly
 
 # Setup
 
