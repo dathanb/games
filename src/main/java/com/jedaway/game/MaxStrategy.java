@@ -26,7 +26,7 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
     private static final Logger LOG = LoggerFactory.getLogger(MaxStrategy.class);
 
     private static final int MAX_QUEUE_SIZE = 1_000_000;
-    private static final double EARLY_RETURN_THRESHOLD = 16;
+    private static final double EARLY_RETURN_THRESHOLD = 2;
     private static final String NUM_POSITIONS_EVALUATED = "com.jedaway.game.maxStrategy.numPositionsEvaluated";
     private static final String POSITION_EVALUATION_METER = "com.jedaway.game.maxStrategy.positionEvaluatedMeter";
     /**
@@ -34,7 +34,7 @@ public class MaxStrategy<GameType extends Game<GameType, MoveType>, MoveType ext
      * <p>
      * I don't like doing this because I don't think it translates well to other games; but it makes sense for the SortingGame, so trying it out.
      */
-    private static final double LEVEL_ADJUSTMENT = 1;
+    private static final double LEVEL_ADJUSTMENT = 0.1;
     private final PositionEvaluator<GameType, MoveType> positionEvaluator;
     private final MoveGenerator<GameType, MoveType> moveGenerator;
     private final MetricRegistry metrics;

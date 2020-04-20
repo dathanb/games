@@ -242,4 +242,13 @@ But maybe we don't even need that. Let's start with just prioritizing good moves
 OK, so I've basically implemented depth-first search, prioritizing search of the best moves found so far. And an
 interesting thing happened -- it makes an order of magnitude more moves, but solves the puzzle in the blink of an eye.
 
-I think I can tune that by penalizing depth a little more - let's give it a shot!
+Turns out I was using a min-heap as a max-heap, to I'm a little surprised that it solved the puzzle at all, much less
+in only an order of magnitude more moves. Fixed that, and tuned the parameters a little bit, and we have a blazing-
+fast solution to the 4-capacity buckets puzzle.
+
+Huh, doesn't work with deeper buckets. I'm guessing that we might be creating loops again: since all positions with a
+given score will also score the same at a given depth, if we can't find a "good" position, we'll re-try positions we've
+already evaluated (since they're lal essentially equally-valued).
+
+I don't think we want to keep a cache of all those positions quite yet. Maybe a Bloom filter to just prevent re-visiting
+any we've visited before?
