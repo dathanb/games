@@ -23,7 +23,8 @@ In order to get log output while running tests, you'll want to specify a system 
 
 TODO:
 - [X] Use shallow copy for calculating new positions
-- [ ] Cache bucket instances
+- [X] Cache bucket instances
+    - Won't do, because buckets are now mostly just `long`s
 - [ ] Cache bucket scores
 - [-] Use arrays for bucket contents
 - [X] Use integers for bucket contents
